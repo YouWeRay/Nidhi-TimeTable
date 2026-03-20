@@ -166,6 +166,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .ics-btn{display:flex;align-items:center;gap:8px;width:100%;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-family:inherit;font-size:13px;color:var(--text2);}
 .ics-btn:hover{background:var(--surface2);}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" onload="window._qrReady=true"></script>
 </head>
 <body>
 
@@ -287,10 +288,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
       <div class="share-section-label">Sync to Google Calendar</div>
       <div id="gcal-section">
         <div class="gcal-setup" id="gcal-no-url">
-          <b>One-time setup required</b> — paste a Google Apps Script Web App URL below to enable live calendar sync.<br><br>
-          See the <b>README</b> for the 5-minute setup guide.
+          <b>Paste your webcal:// Gist URL</b> to subscribe in Google Calendar.<br><br>
+          From your Apps Script execution log, copy the line that starts with <b>webcal://gist.githubusercontent.com/...</b>
           <div style="display:flex;gap:6px;margin-top:8px;">
-            <input type="text" id="gcal-url-input" placeholder="https://script.google.com/macros/s/.../exec" style="flex:1;border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-size:12px;font-family:monospace;outline:none;background:var(--surface);" />
+            <input type="text" id="gcal-url-input" placeholder="webcal://gist.githubusercontent.com/..." style="flex:1;border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-size:12px;font-family:monospace;outline:none;background:var(--surface);" />
             <button onclick="saveGcalUrl()" style="padding:6px 12px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:500;">Save</button>
           </div>
         </div>
@@ -558,14 +559,24 @@ function openShare() {
   // QR code
   var qr = document.getElementById('qr-wrap');
   qr.innerHTML = '';
-  if (typeof QRCode !== 'undefined') {
-    new QRCode(qr, { text: url, width: 120, height: 120, colorDark: '#1C1916', colorLight: '#F6F4EF' });
+  // Use qrcode.js loaded via CDN in <head>
+  if (window._qrReady) {
+    new QRCode(qr, { text: url, width: 128, height: 128, colorDark: '#1C1916', colorLight: '#F6F4EF', correctLevel: QRCode.CorrectLevel.M });
   } else {
-    // Fallback: Google Charts QR
-    var img = document.createElement('img');
-    img.src = 'https://chart.googleapis.com/chart?chs=120x120&cht=qr&chl=' + encodeURIComponent(url);
-    img.style.borderRadius = '8px';
-    qr.appendChild(img);
+    // inline SVG QR placeholder while library loads
+    qr.innerHTML = '<div style="width:128px;height:128px;background:var(--surface2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text3);">Loading QR…</div>';
+    var attempts = 0;
+    var wait = setInterval(function(){
+      attempts++;
+      if (typeof QRCode !== 'undefined') {
+        clearInterval(wait);
+        qr.innerHTML = '';
+        new QRCode(qr, { text: url, width: 128, height: 128, colorDark: '#1C1916', colorLight: '#F6F4EF', correctLevel: QRCode.CorrectLevel.M });
+      } else if (attempts > 20) {
+        clearInterval(wait);
+        qr.innerHTML = '<div style="font-size:11px;color:var(--text3);text-align:center;padding:1rem;">Scan this URL:<br><span style='word-break:break-all;font-size:10px;'>' + url + '</span></div>';
+      }
+    }, 150);
   }
   // GCal state
   var saved = localStorage.getItem(GCAL_KEY);
@@ -617,7 +628,9 @@ function resetGcalUrl() {
 function openGcalSubscribe() {
   var icsUrl = localStorage.getItem(GCAL_KEY);
   if (!icsUrl) return;
-  var gcalUrl = 'https://calendar.google.com/calendar/r?cid=' + encodeURIComponent(icsUrl);
+  // Convert webcal:// to https:// for the Google Calendar subscription URL
+  var cid = icsUrl.replace(/^webcal:\/\//, 'https://');
+  var gcalUrl = 'https://calendar.google.com/calendar/r?cid=' + encodeURIComponent(cid);
   window.open(gcalUrl, '_blank');
 }
 
