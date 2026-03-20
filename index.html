@@ -167,7 +167,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 <div class="page">
 
   <div class="header">
-    <h1>Nidhi <em>Time Table</em></h1>
+    <h1>Your <em>Time Table</em></h1>
     <div class="header-meta" id="meta">Loading…</div>
   </div>
 
@@ -231,7 +231,7 @@ var calYear   = new Date().getFullYear();
 var MONTHS      = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 var MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 var DAY_ORDER   = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-var KEY = 'nidhi_tt_url_v5';
+var KEY = 'your_tt_url_v5';
 
 // Colour palette — cycles through for each slot column
 var SLOT_COLORS = [
@@ -271,6 +271,15 @@ function loadSheet() {
   if (url) fetchAndRender(url);
 }
 
+function setTitle(title) {
+  // Split into two parts for styled heading: first word plain, rest italic+coloured
+  var parts = title.trim().split(/\s+/);
+  var first = parts[0] || 'Your';
+  var rest  = parts.slice(1).join(' ') || 'Time Table';
+  document.querySelector('.header h1').innerHTML = first + ' <em>' + esc(rest) + '</em>';
+  document.title = title;
+}
+
 function fetchAndRender(url) {
   document.getElementById('loading').style.display = 'block';
   document.getElementById('dash').style.display = 'none';
@@ -281,6 +290,7 @@ function fetchAndRender(url) {
       var parsed = parseCSV(csv);
       data      = parsed.rows;
       timeSlots = parsed.slots;
+      setTitle(parsed.title);
       if (!data.length) throw new Error('No data rows found.');
       localStorage.setItem(KEY, url);
       setStatus('Loaded ' + data.length + ' entries · ' + new Date().toLocaleTimeString(), 'ok');
@@ -359,6 +369,25 @@ function parseCSV(text) {
     if ((rows[i][1]||'').toLowerCase().trim()==='day') { headerIdx=i; break; }
   }
 
+  // Extract title from A1 (row 0, col 0)
+  // If A1 is blank, looks like a header (contains "day"/"date"), use default
+  var rawTitle = (rows[0] && rows[0][0] ? rows[0][0] : '') ||
+                 (rows[0] && rows[0].join(' ') ? rows[0].join(' ') : '');
+  var titleLow = rawTitle.toLowerCase().trim();
+  var isHeaderLike = titleLow === '' || titleLow === 'date' || titleLow === 'day' ||
+                     titleLow.indexOf('time table') === -1 && (titleLow === 'date' || rows[0] && (rows[0][1]||'').toLowerCase().trim() === 'day');
+  // Use A1 text if it looks like a real title (not a column header)
+  var sheetTitle = '';
+  if (headerIdx > 0 && rows[0]) {
+    // A1 is in the title row (before headers)
+    var a1 = (rows[0].join(' ')).trim();
+    var a1Low = a1.toLowerCase();
+    if (a1 && a1Low !== 'date' && a1Low !== 'day' && a1Low.indexOf('9:') === -1 && a1Low.indexOf('am') === -1) {
+      sheetTitle = rows[0].filter(function(c){ return c.trim(); }).join(' ').trim();
+    }
+  }
+  if (!sheetTitle) sheetTitle = 'Your Time Table';
+
   var headerRow = rows[headerIdx];
 
   // Auto-detect time slot columns from header (col 2 onwards)
@@ -434,7 +463,7 @@ function parseCSV(text) {
     result.push({ week:weekNum, day:dayCaped, off:false, date:parsedDate, events:events });
   }
 
-  return { rows:result, slots:slots };
+  return { rows:result, slots:slots, title:sheetTitle };
 }
 
 // ── Date helpers ──
