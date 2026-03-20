@@ -34,17 +34,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .header h1 em { font-style: italic; color: var(--accent); }
 .header-meta { font-size: 12px; color: var(--text3); margin-top: 5px; }
 
-.setup-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem 1.75rem; margin-bottom: 1.5rem; }
-.setup-box h3 { font-family: 'DM Serif Display', serif; font-size: 1.05rem; font-weight: 400; margin-bottom: 1rem; }
-.step { display: flex; gap: 11px; margin-bottom: 0.7rem; align-items: flex-start; }
-.step-n { width: 20px; height: 20px; min-width: 20px; background: var(--accent); color: #fff; border-radius: 50%; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
-.step p { font-size: 13px; color: var(--text2); line-height: 1.55; }
-.step code { background: var(--surface2); padding: 1px 6px; border-radius: 4px; font-size: 12px; color: var(--text); font-family: monospace; }
-
-.url-bar { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 11px 14px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.url-bar label { font-size: 13px; color: var(--text2); white-space: nowrap; font-weight: 500; }
-.url-bar input { flex: 1; min-width: 220px; border: 1px solid var(--border); border-radius: 7px; padding: 7px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--bg); outline: none; transition: border 0.15s; }
-.url-bar input:focus { border-color: var(--accent); }
+/* Admin bar — hidden from Nidhi, toggle with Shift+U */
+.admin-bar { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 11px 14px; margin-bottom: 1.5rem; align-items: center; gap: 10px; flex-wrap: wrap; }
+.admin-bar.visible { display: flex; }
+.admin-bar label { font-size: 13px; color: var(--text2); white-space: nowrap; font-weight: 500; }
+.admin-bar input { flex: 1; min-width: 220px; border: 1px solid var(--border); border-radius: 7px; padding: 7px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--bg); outline: none; transition: border 0.15s; }
+.admin-bar input:focus { border-color: var(--accent); }
 .btn { padding: 8px 18px; background: var(--accent); color: #fff; border: none; border-radius: 7px; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 500; white-space: nowrap; transition: opacity 0.15s; }
 .btn:hover { opacity: 0.85; }
 .btn-sm { padding: 5px 12px; background: transparent; border: 1px solid var(--border); border-radius: 7px; font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--text2); cursor: pointer; transition: background 0.1s; }
@@ -66,11 +61,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 
 .week-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
 .week-row label { font-size: 13px; color: var(--text2); }
-.week-row select { border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--text); outline: none; cursor: pointer; }
+.week-row select { border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--text); outline: none; cursor: pointer; min-width: 240px; }
 
 .day-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; }
 .day-head { display: flex; align-items: center; gap: 8px; padding: 9px 15px; background: var(--surface2); border-bottom: 1px solid var(--border); }
 .day-name { font-weight: 500; font-size: 14px; min-width: 88px; }
+.day-date { font-size: 12px; color: var(--text3); }
 .day-slots { display: grid; grid-template-columns: repeat(3, 1fr); }
 .slot { padding: 11px 14px; border-right: 1px solid var(--border); }
 .slot:last-child { border-right: none; }
@@ -82,6 +78,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .p-teal  { background: var(--teal-bg); color: var(--teal); }
 .p-amber { background: var(--amber-bg); color: var(--amber); }
 .day-off { padding: 11px 15px; font-size: 13px; color: var(--text3); font-style: italic; }
+.today-highlight { border-color: var(--accent) !important; }
+.today-highlight .day-head { background: var(--accent-bg); }
 
 .month-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
 .nav-btn { width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); cursor: pointer; font-size: 14px; color: var(--text2); display: flex; align-items: center; justify-content: center; }
@@ -111,6 +109,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .yr-d.r { background: var(--surface2); }
 .yr-d.e { background: transparent; }
 .yr-count { font-size: 11px; color: var(--text3); margin-top: 7px; }
+
+.loading { text-align: center; padding: 3rem; color: var(--text3); font-size: 14px; }
 </style>
 </head>
 <body>
@@ -118,26 +118,19 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 
   <div class="header">
     <h1>Nidhi <em>Time Table</em></h1>
-    <div class="header-meta" id="meta">Connect your Google Sheet below to load live data</div>
+    <div class="header-meta" id="meta">Loading…</div>
   </div>
 
-  <div class="url-bar">
+  <!-- Admin bar: hidden from Nidhi. Press Shift+U to show/hide when you need to update the sheet URL -->
+  <div class="admin-bar" id="admin-bar">
     <label>Sheet URL:</label>
-    <input type="text" id="sheet-url" placeholder="Paste your published Google Sheet CSV link…" />
+    <input type="text" id="sheet-url" placeholder="Paste Google Sheet CSV link…" />
     <button class="btn" onclick="loadSheet()">Load</button>
-    <button class="btn-sm" onclick="clearSaved()">Clear saved link</button>
+    <button class="btn-sm" onclick="clearSaved()">Clear saved</button>
     <span id="status"></span>
   </div>
 
-  <div class="setup-box" id="setup">
-    <h3>One-time setup — takes 2 minutes</h3>
-    <div class="step"><div class="step-n">1</div><p>Open the timetable in <strong>Google Sheets</strong>.</p></div>
-    <div class="step"><div class="step-n">2</div><p>Click <strong>File → Share → Publish to web</strong>.</p></div>
-    <div class="step"><div class="step-n">3</div><p>First dropdown: pick your sheet tab (e.g. <code>Sheet1</code>). Second dropdown: pick <code>Comma-separated values (.csv)</code>.</p></div>
-    <div class="step"><div class="step-n">4</div><p>Click <strong>Publish</strong> → copy the link. <em>You can also just copy the normal sheet URL from your browser address bar — both work.</em></p></div>
-    <div class="step"><div class="step-n">5</div><p>Paste it above and click <strong>Load</strong>. The link is saved in this browser automatically.</p></div>
-    <div class="step"><div class="step-n">6</div><p>After updating the sheet, Nidhi just <strong>refreshes this page</strong>. No code needed ever.</p></div>
-  </div>
+  <div id="loading" class="loading">Loading timetable…</div>
 
   <div id="dash" style="display:none">
     <div class="tabs">
@@ -179,69 +172,82 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 </div>
 
 <script>
-// Column positions (0-based) matching Nidhi's exact sheet:
-// Col A(0)=empty, B(1)=Day, C(2)=9:30-11 Morning, D(3)=11-12:30 Online Class,
-// E(4)=12:30-1 Lunch, F(5)=1:30-3 Seminar/Location, G(6)=3:30-6 Visit/Activity
+// ── SHEET URL — update this if the Google Sheet link ever changes ──
+var SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-4253V0CGVPKAv0mbji4vXiIUJ4-DjG97p7gOBDi0nZ8Q1DqlQhRfPKhcoWYODw/pub?gid=437593195&single=true&output=csv';
+
+// Column positions (0-based): A=0 empty, B=1 Day, C=2 Morning, D=3 Online, E=4 Lunch, F=5 Seminar, G=6 Visit
 var COL = { day:1, morning:2, online:3, seminar:5, visit:6 };
 
 var data = [];
+var weekMeta = {}; // weekNum -> { startDate, endDate } computed from real calendar
 var calMonth = new Date().getMonth();
 var calYear  = new Date().getFullYear();
-var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-var DAY_ORDER = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-var KEY = 'nidhi_tt_url_v2';
+var MONTHS   = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+var DAY_ORDER   = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+var KEY = 'nidhi_tt_url_v3';
 
-window.onload = function() {
-  var saved = localStorage.getItem(KEY);
-  if (saved) { document.getElementById('sheet-url').value = saved; loadSheet(); }
-};
+// ── Admin panel toggle: Shift+U ──
+document.addEventListener('keydown', function(e) {
+  if (e.shiftKey && e.key === 'U') {
+    var bar = document.getElementById('admin-bar');
+    bar.classList.toggle('visible');
+    if (bar.classList.contains('visible')) {
+      var saved = localStorage.getItem(KEY) || SHEET_URL;
+      document.getElementById('sheet-url').value = saved;
+    }
+  }
+});
 
 function clearSaved() {
   localStorage.removeItem(KEY);
   document.getElementById('sheet-url').value = '';
-  setStatus('Link cleared.', '');
+  setStatus('Cleared.', '');
 }
 
-function toExportUrl(url) {
-  // Already a published CSV link (/pub?...output=csv) — use directly, no conversion
-  if (url.indexOf('/pub') !== -1 && url.indexOf('output=csv') !== -1) return url;
-  // Already a direct export URL — use as-is
-  if (url.indexOf('output=csv') !== -1 || url.indexOf('/export') !== -1) return url;
-  // Regular sheet edit URL — convert to export
-  var idMatch  = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
-  var gidMatch = url.match(/[?&]gid=([0-9]+)/);
-  if (idMatch) {
-    var id  = idMatch[1];
-    var gid = gidMatch ? gidMatch[1] : '0';
-    return 'https://docs.google.com/spreadsheets/d/' + id + '/export?format=csv&gid=' + gid;
-  }
-  return url;
-}
+// ── Auto-load on page open ──
+window.onload = function() {
+  var url = localStorage.getItem(KEY) || SHEET_URL;
+  document.getElementById('sheet-url').value = url;
+  fetchAndRender(url);
+};
 
 function loadSheet() {
-  var rawUrl = document.getElementById('sheet-url').value.trim();
-  if (!rawUrl) return;
-  var url = toExportUrl(rawUrl);
+  var url = document.getElementById('sheet-url').value.trim();
+  if (!url) return;
+  fetchAndRender(url);
+}
+
+function fetchAndRender(url) {
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('dash').style.display = 'none';
   setStatus('Loading…', '');
+
   fetch(url)
     .then(function(r) {
-      if (!r.ok) throw new Error('Could not fetch — make sure the sheet is published to web (File → Share → Publish to web).');
+      if (!r.ok) throw new Error('Could not fetch. Make sure the sheet is published to web.');
       return r.text();
     })
     .then(function(csv) {
       data = parseCSV(csv);
-      if (!data.length) throw new Error('No rows found. Make sure the sheet has data starting from row 2.');
-      localStorage.setItem(KEY, rawUrl);
+      if (!data.length) throw new Error('No rows found — check sheet has data from row 2.');
+      localStorage.setItem(KEY, url);
       setStatus('Loaded ' + data.length + ' entries · ' + new Date().toLocaleTimeString(), 'ok');
       document.getElementById('meta').textContent = 'Live from Google Sheets · last refreshed ' + new Date().toLocaleString();
-      document.getElementById('setup').style.display = 'none';
+      document.getElementById('loading').style.display = 'none';
       document.getElementById('dash').style.display = 'block';
       buildWeekSelect();
       renderWeekly();
       renderMonthly();
       renderYearly();
     })
-    .catch(function(e) { setStatus('Error: ' + e.message, 'err'); });
+    .catch(function(e) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('meta').textContent = 'Could not load data — press Shift+U to update the sheet URL';
+      setStatus('Error: ' + e.message, 'err');
+      var bar = document.getElementById('admin-bar');
+      bar.classList.add('visible');
+    });
 }
 
 function setStatus(msg, cls) {
@@ -249,7 +255,7 @@ function setStatus(msg, cls) {
   el.textContent = msg; el.className = cls;
 }
 
-// ── CSV Parser (exact column positions) ──
+// ── CSV Parser ──
 function splitLine(line) {
   var res = [], cur = '', inQ = false;
   for (var i = 0; i < line.length; i++) {
@@ -266,13 +272,11 @@ function parseCSV(text) {
   var lines = text.split(/\r?\n/).map(function(l){ return l.trim(); });
   var rows  = lines.filter(function(l){ return l.length > 0; }).map(splitLine);
 
-  // Row 0 = title ("Nidhi Time Table"), Row 1 = column headers, data starts Row 2
-  // Find the header row: col[1] should equal "Day"
-  var dataStart = 2; // default
+  // Find header row: col[1] = "Day"
+  var dataStart = 2;
   for (var i = 0; i < Math.min(rows.length, 5); i++) {
     if ((rows[i][COL.day] || '').toLowerCase().trim() === 'day') {
-      dataStart = i + 1;
-      break;
+      dataStart = i + 1; break;
     }
   }
 
@@ -286,9 +290,8 @@ function parseCSV(text) {
     var dayLow = dayRaw.toLowerCase();
     if (!dayLow || dayLow === 'day') continue;
 
-    // Sunday or "WEEKLY OFF" row
-    var rowText = row.join('|').toLowerCase();
-    var isSunday = dayLow === 'sunday';
+    var rowText     = row.join('|').toLowerCase();
+    var isSunday    = dayLow === 'sunday';
     var isWeeklyOff = rowText.indexOf('weekly off') !== -1;
 
     if (isSunday || isWeeklyOff) {
@@ -300,8 +303,6 @@ function parseCSV(text) {
 
     var dayCaped = dayLow.charAt(0).toUpperCase() + dayLow.slice(1);
     var thisIdx  = DAY_ORDER.indexOf(dayCaped);
-
-    // New week if Monday comes after a Saturday
     if (thisIdx === 0 && prevIdx >= 5) weekNum++;
     prevIdx = thisIdx;
 
@@ -318,23 +319,77 @@ function parseCSV(text) {
   return result;
 }
 
-// ── Helpers ──
-function esc(s)      { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function trunc(s, n) { return s && s.length > n ? s.slice(0, n-1) + '…' : (s||''); }
-function mkStat(v,l) { return '<div class="stat"><div class="stat-val">'+v+'</div><div class="stat-lbl">'+l+'</div></div>'; }
+// ── Compute date range label for each week ──
+// Strategy: find the Monday of the current real-world week,
+// then assign Week 1 = first week in data, counting forward.
+// We map week numbers to real Mon–Sat date ranges starting from today's week.
+function getWeekDateRange(weekNum, allWeeks) {
+  // Find the earliest week number in data
+  var minWeek = Math.min.apply(null, allWeeks);
+  // Get this week's Monday (today's real date)
+  var today = new Date();
+  var dow = today.getDay(); // 0=Sun
+  var daysSinceMon = dow === 0 ? 6 : dow - 1;
+  var thisMonday = new Date(today);
+  thisMonday.setDate(today.getDate() - daysSinceMon);
+
+  // Find current week number in data (the week that contains today)
+  var currentWeekNum = getCurrentWeekNum();
+  var weekOffset = weekNum - currentWeekNum;
+
+  var weekMonday = new Date(thisMonday);
+  weekMonday.setDate(thisMonday.getDate() + weekOffset * 7);
+  var weekSaturday = new Date(weekMonday);
+  weekSaturday.setDate(weekMonday.getDate() + 5);
+
+  var fmt = function(d) {
+    return d.getDate() + ' ' + MONTH_SHORT[d.getMonth()];
+  };
+  return fmt(weekMonday) + ' – ' + fmt(weekSaturday);
+}
+
+function getCurrentWeekNum() {
+  // Which week number in our data corresponds to today?
+  // We figure this out by counting weeks from the start of data.
+  // The timetable is a repeating cycle — we use modulo to find which cycle we're in.
+  var today = new Date();
+  var dow = today.getDay() === 0 ? 7 : today.getDay(); // Mon=1 … Sun=7
+  var todayDayName = DAY_ORDER[dow - 1]; // e.g. "Thursday"
+
+  var weeks = [];
+  data.forEach(function(r){ if (weeks.indexOf(r.week) === -1) weeks.push(r.week); });
+  weeks.sort(function(a,b){ return a-b; });
+  var totalWeeks = weeks.length;
+  if (!totalWeeks) return 1;
+
+  // Use ISO week number to pick cycle position
+  var startOfYear = new Date(today.getFullYear(), 0, 1);
+  var isoWeek = Math.ceil(((today - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
+  // Map to our weeks with modulo
+  var idx = (isoWeek - 1) % totalWeeks;
+  return weeks[idx] || weeks[0];
+}
 
 // ── Week Select ──
 function buildWeekSelect() {
   var weeks = [];
   data.forEach(function(r){ if (weeks.indexOf(r.week)===-1) weeks.push(r.week); });
   weeks.sort(function(a,b){ return a-b; });
+
   var sel = document.getElementById('week-sel');
   sel.innerHTML = '';
   weeks.forEach(function(w){
     var o = document.createElement('option');
-    o.value = w; o.textContent = 'Week ' + w;
+    o.value = w;
+    var range = getWeekDateRange(w, weeks);
+    o.textContent = 'Week ' + w + '  (' + range + ')';
     sel.appendChild(o);
   });
+
+  // Default to current week
+  var currentWk = getCurrentWeekNum();
+  sel.value = currentWk;
+  if (!sel.value) sel.selectedIndex = 0; // fallback
 }
 
 // ── Weekly ──
@@ -348,14 +403,39 @@ function renderWeekly() {
   document.getElementById('w-stats').innerHTML =
     mkStat(working,'Active days') + mkStat(offs,'Days off') + mkStat(working*3,'Sessions this week');
 
+  // Get Monday of the selected week to compute per-day dates
+  var today = new Date();
+  var dow = today.getDay() === 0 ? 7 : today.getDay();
+  var daysSinceMon = dow - 1;
+  var thisMonday = new Date(today);
+  thisMonday.setDate(today.getDate() - daysSinceMon);
+
+  var allWeeks = [];
+  data.forEach(function(r){ if (allWeeks.indexOf(r.week)===-1) allWeeks.push(r.week); });
+  var currentWk = getCurrentWeekNum();
+  var weekOffset = wk - currentWk;
+  var weekMonday = new Date(thisMonday);
+  weekMonday.setDate(thisMonday.getDate() + weekOffset * 7);
+
   var html = '';
   rows.forEach(function(r) {
+    // Compute actual date for this day
+    var dayIdx = DAY_ORDER.indexOf(r.day); // Mon=0 … Sun=6
+    var dayDate = new Date(weekMonday);
+    dayDate.setDate(weekMonday.getDate() + dayIdx);
+    var dateStr = dayDate.getDate() + ' ' + MONTH_SHORT[dayDate.getMonth()];
+    var isToday = dayDate.toDateString() === today.toDateString();
+
     if (r.off) {
-      html += '<div class="day-card"><div class="day-head"><span class="day-name">'+r.day+'</span></div>'
-            + '<div class="day-off">Weekly off</div></div>';
+      html += '<div class="day-card'+(isToday?' today-highlight':'')+'"><div class="day-head">'
+            + '<span class="day-name">'+r.day+'</span>'
+            + '<span class="day-date">'+dateStr+'</span>'
+            + '</div><div class="day-off">Weekly off</div></div>';
       return;
     }
-    html += '<div class="day-card"><div class="day-head"><span class="day-name">'+r.day+'</span>';
+    html += '<div class="day-card'+(isToday?' today-highlight':'')+'"><div class="day-head">'
+          + '<span class="day-name">'+r.day+'</span>'
+          + '<span class="day-date">'+dateStr+'</span>';
     if (r.visit) html += '<span class="pill p-amber">'+esc(trunc(r.visit,36))+'</span>';
     html += '</div><div class="day-slots">';
     html += mkSlot('9:30 – 11:00 am',     r.morning, 'coral', 'Prep');
@@ -374,6 +454,10 @@ function mkSlot(time, content, color, label) {
     + (!isEmpty ? '<span class="pill p-'+color+'">'+label+'</span>' : '')
     + '</div>';
 }
+
+function mkStat(v,l) { return '<div class="stat"><div class="stat-val">'+v+'</div><div class="stat-lbl">'+l+'</div></div>'; }
+function esc(s)      { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function trunc(s,n)  { return s && s.length > n ? s.slice(0,n-1)+'…' : (s||''); }
 
 // ── Monthly ──
 function shiftMonth(d) {
