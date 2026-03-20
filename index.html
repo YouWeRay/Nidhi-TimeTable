@@ -3,44 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Time Table</title>
+<title>Time Table Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#F6F4EF; --surface:#FFF; --surface2:#EEEAE2; --border:#DDD9CF;
-  --text:#1C1916; --text2:#6A6358; --text3:#A09880;
-  --accent:#2A5C8F; --accent-bg:#EAF1F9;
-  --radius:10px; --radius-lg:14px;
-  --hour-h:56px;
-}
+:root{--bg:#F6F4EF;--surface:#FFF;--surface2:#EEEAE2;--border:#DDD9CF;--text:#1C1916;--text2:#6A6358;--text3:#A09880;--accent:#2A5C8F;--accent-bg:#EAF1F9;--radius:10px;--radius-lg:14px;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 .page{max-width:1100px;margin:0 auto;padding:1.5rem 1.5rem 4rem;}
 
-/* Header */
-.hdr{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;}
-.hdr h1{font-family:'DM Serif Display',serif;font-size:2rem;font-weight:400;letter-spacing:-0.02em;}
-.hdr h1 em{font-style:italic;color:var(--accent);}
-.hdr-meta{font-size:12px;color:var(--text3);margin-top:4px;}
+/* ── ONBOARDING ── */
+#onboarding{min-height:100vh;display:none;align-items:center;justify-content:center;padding:2rem;}
+.ob-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem 2.5rem 2rem;max-width:560px;width:100%;}
+.ob-card h1{font-family:'DM Serif Display',serif;font-size:2rem;font-weight:400;margin-bottom:.5rem;}
+.ob-card h1 em{font-style:italic;color:var(--accent);}
+.ob-sub{font-size:13px;color:var(--text2);margin-bottom:1.75rem;line-height:1.6;}
+.ob-steps{margin-bottom:1.5rem;}
+.ob-step{display:flex;gap:11px;margin-bottom:.8rem;align-items:flex-start;}
+.ob-n{width:20px;height:20px;min-width:20px;background:var(--accent);color:#fff;border-radius:50%;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+.ob-step p{font-size:13px;color:var(--text2);line-height:1.5;}
+.ob-step code{background:var(--surface2);padding:1px 5px;border-radius:4px;font-size:12px;color:var(--text);font-family:monospace;}
+.ob-row{display:flex;gap:8px;align-items:stretch;margin-bottom:.5rem;}
+.ob-row input{flex:1;border:1.5px solid var(--border);border-radius:8px;padding:9px 13px;font-size:13px;font-family:inherit;color:var(--text);background:var(--bg);outline:none;transition:border .15s;}
+.ob-row input:focus{border-color:var(--accent);}
+.ob-btn{padding:9px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:13px;font-family:inherit;cursor:pointer;font-weight:500;white-space:nowrap;}
+.ob-btn:hover{opacity:.85;}
+.ob-btn:disabled{opacity:.5;cursor:default;}
+.ob-err{font-size:12px;color:#BF4E28;min-height:18px;margin-bottom:.5rem;}
+.ob-note{font-size:11px;color:var(--text3);line-height:1.5;}
 
-/* Admin */
-.admin-bar{display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 14px;margin-bottom:1rem;align-items:center;gap:8px;flex-wrap:wrap;}
-.admin-bar.visible{display:flex;}
-.admin-bar label{font-size:13px;color:var(--text2);font-weight:500;}
-.admin-bar input{flex:1;min-width:200px;border:1px solid var(--border);border-radius:7px;padding:6px 10px;font-size:13px;font-family:inherit;color:var(--text);background:var(--bg);outline:none;}
-.admin-bar input:focus{border-color:var(--accent);}
-.btn{padding:7px 16px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-size:13px;font-family:inherit;cursor:pointer;font-weight:500;}
-.btn:hover{opacity:0.85;}
-.btn-sm{padding:5px 10px;background:transparent;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:inherit;color:var(--text2);cursor:pointer;}
+/* ── DASHBOARD ── */
+#dashboard{display:none;}
+.hdr{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem;}
+.hdr-left h1{font-family:'DM Serif Display',serif;font-size:2rem;font-weight:400;letter-spacing:-.02em;}
+.hdr-left h1 em{font-style:italic;color:var(--accent);}
+.hdr-meta{font-size:12px;color:var(--text3);margin-top:4px;}
+.hdr-right{display:flex;gap:8px;align-items:center;padding-top:4px;}
+.btn-sm{padding:5px 12px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:inherit;background:var(--surface);color:var(--text2);cursor:pointer;}
 .btn-sm:hover{background:var(--surface2);}
-#status{font-size:12px;color:var(--text3);}
-#status.ok{color:#1A7A62;}
-#status.err{color:#BF4E28;}
 
 /* Tabs */
 .tabs{display:flex;gap:3px;margin-bottom:1.5rem;background:var(--surface2);border-radius:var(--radius);padding:4px;width:fit-content;}
-.tab{padding:6px 20px;border-radius:8px;border:none;background:transparent;cursor:pointer;font-size:14px;font-family:inherit;color:var(--text2);transition:all 0.15s;}
-.tab.active{background:var(--surface);color:var(--text);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.07);}
+.tab{padding:6px 20px;border-radius:8px;border:none;background:transparent;cursor:pointer;font-size:14px;font-family:inherit;color:var(--text2);transition:all .15s;}
+.tab.active{background:var(--surface);color:var(--text);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.07);}
 .view{display:none;}
 .view.active{display:block;}
 
@@ -48,623 +52,405 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .nav-row{display:flex;align-items:center;gap:8px;margin-bottom:1rem;}
 .nav-btn{width:28px;height:28px;border:1px solid var(--border);border-radius:7px;background:var(--surface);cursor:pointer;font-size:15px;color:var(--text2);display:flex;align-items:center;justify-content:center;}
 .nav-btn:hover{background:var(--surface2);}
-.nav-title{font-family:'DM Serif Display',serif;font-size:1.2rem;}
+.nav-title{font-family:'DM Serif Display',serif;font-size:1.15rem;}
 .nav-today{padding:4px 12px;border:1px solid var(--border);border-radius:7px;font-size:12px;font-family:inherit;background:var(--surface);cursor:pointer;color:var(--text2);}
 .nav-today:hover{background:var(--surface2);}
 
-/* ── DAY VIEW (Google Calendar timeline) ── */
-.day-label{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.day-label-name{font-family:'DM Serif Display',serif;font-size:1.3rem;}
-.day-label-date{font-size:13px;color:var(--text3);}
-.day-label-today{display:inline-block;background:var(--accent);color:#fff;border-radius:99px;font-size:11px;padding:2px 8px;font-weight:500;}
-
+/* ── DAY / TIMELINE ── */
+.day-label{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.dl-name{font-family:'DM Serif Display',serif;font-size:1.3rem;}
+.dl-date{font-size:13px;color:var(--text3);}
+.dl-today{background:var(--accent);color:#fff;border-radius:99px;font-size:11px;padding:2px 9px;font-weight:500;}
 .tl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
 .tl-body{display:flex;position:relative;}
-.tl-gutter{width:52px;min-width:52px;flex-shrink:0;border-right:1px solid var(--border);position:relative;}
+.tl-gutter{width:56px;min-width:56px;flex-shrink:0;border-right:1px solid var(--border);position:relative;}
 .tl-hour-lbl{position:absolute;right:7px;font-size:10px;color:var(--text3);transform:translateY(-50%);white-space:nowrap;}
 .tl-events{flex:1;position:relative;}
 .tl-hline{position:absolute;left:0;right:0;border-top:1px solid var(--border);pointer-events:none;}
-.tl-hline.half{border-top-style:dashed;opacity:0.35;}
-.tl-event{position:absolute;left:6px;right:6px;border-radius:6px;padding:5px 9px;overflow:hidden;cursor:pointer;transition:filter 0.1s;}
-.tl-event:hover{filter:brightness(0.94);}
-.tl-ev-time{font-size:10px;font-weight:500;opacity:0.75;letter-spacing:0.02em;line-height:1.3;}
-.tl-ev-title{font-size:12px;font-weight:500;line-height:1.4;margin-top:1px;}
+.tl-hline.half{border-top-style:dashed;opacity:.3;}
+/* Event block — min 40px, compact layout for short events */
+.tl-event{position:absolute;left:8px;right:8px;border-radius:7px;padding:6px 10px;overflow:hidden;cursor:pointer;transition:filter .1s;}
+.tl-event:hover{filter:brightness(.93);}
+.tl-event.compact{display:flex;align-items:center;gap:6px;padding:0 10px;}
+.tl-ev-time{font-size:10px;font-weight:500;opacity:.8;letter-spacing:.02em;line-height:1.2;white-space:nowrap;flex-shrink:0;}
+.tl-ev-title{font-size:12px;font-weight:500;line-height:1.4;margin-top:2px;}
+.tl-event.compact .tl-ev-title{margin-top:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .tl-now{position:absolute;left:0;right:0;border-top:2px solid #E53935;pointer-events:none;z-index:10;}
 .tl-now-dot{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:#E53935;}
 .day-off-msg{padding:3rem;text-align:center;color:var(--text3);font-size:14px;font-style:italic;}
 
-/* ── WEEK VIEW (compact grid) ── */
-.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:1rem;}
-.week-grid-col{display:flex;flex-direction:column;gap:4px;}
-.wk-day-head{padding:6px 8px;border-radius:8px 8px 0 0;background:var(--surface2);border:1px solid var(--border);border-bottom:none;cursor:pointer;text-align:center;}
-.wk-day-head:hover{background:var(--accent-bg);}
-.wk-day-head.today-head{background:var(--accent-bg);border-color:var(--accent);}
-.wk-day-name{font-size:11px;color:var(--text2);font-weight:500;text-transform:uppercase;letter-spacing:0.05em;}
-.wk-day-num{font-size:18px;font-family:'DM Serif Display',serif;color:var(--text);line-height:1;}
-.wk-day-head.today-head .wk-day-num{color:var(--accent);}
-.wk-events{border:1px solid var(--border);border-radius:0 0 8px 8px;background:var(--surface);min-height:120px;padding:5px;display:flex;flex-direction:column;gap:3px;}
-.wk-events.today-col{border-color:var(--accent);}
-.wk-ev{border-radius:5px;padding:4px 6px;font-size:11px;line-height:1.35;cursor:pointer;}
-.wk-ev:hover{filter:brightness(0.93);}
-.wk-ev-time{font-size:10px;opacity:0.7;font-weight:500;}
-.wk-off{font-size:11px;color:var(--text3);font-style:italic;padding:6px;}
+/* ── WEEK ── */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:1rem;}
+.wk-col{display:flex;flex-direction:column;}
+.wk-head{padding:7px 4px;border-radius:8px 8px 0 0;background:var(--surface2);border:1px solid var(--border);border-bottom:none;cursor:pointer;text-align:center;}
+.wk-head:hover{background:var(--accent-bg);}
+.wk-head.today{background:var(--accent-bg);border-color:var(--accent);}
+.wk-dname{font-size:10px;color:var(--text2);font-weight:500;text-transform:uppercase;letter-spacing:.05em;}
+.wk-dnum{font-size:17px;font-family:'DM Serif Display',serif;color:var(--text);line-height:1.1;}
+.wk-head.today .wk-dnum{color:var(--accent);}
+.wk-body{border:1px solid var(--border);border-radius:0 0 8px 8px;background:var(--surface);min-height:110px;padding:4px;display:flex;flex-direction:column;gap:3px;flex:1;}
+.wk-body.today{border-color:var(--accent);}
+.wk-ev{border-radius:5px;padding:3px 6px;font-size:10px;line-height:1.35;cursor:pointer;}
+.wk-ev:hover{filter:brightness(.93);}
+.wk-ev-time{font-size:9px;opacity:.75;font-weight:500;}
+.wk-off{font-size:11px;color:var(--text3);font-style:italic;padding:5px 4px;}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:1.25rem;}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1rem;}
+.stat-val{font-size:22px;font-family:'DM Serif Display',serif;}
+.stat-lbl{font-size:11px;color:var(--text3);margin-top:2px;}
 
-/* ── MONTH VIEW ── */
+/* ── MONTH ── */
 .month-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
 .month-dow{text-align:center;font-size:11px;color:var(--text3);padding:4px 0;font-weight:500;}
-.month-cell{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px;min-height:80px;cursor:pointer;transition:border-color 0.1s;}
-.month-cell:hover{border-color:#888;}
+.month-cell{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px;min-height:82px;cursor:pointer;transition:border-color .1s;}
+.month-cell:hover:not(.off):not(.empty){border-color:#999;}
 .month-cell.off{background:var(--surface2);cursor:default;}
-.month-cell.off:hover{border-color:var(--border);}
 .month-cell.empty{background:transparent;border-color:transparent;min-height:0;cursor:default;}
 .month-cell.today{border-color:var(--accent);}
-.month-cell.has-data{border-color:var(--border);}
 .mc-num{font-size:12px;color:var(--text2);font-weight:500;margin-bottom:4px;}
 .month-cell.today .mc-num{color:var(--accent);font-weight:600;}
 .mc-ev{font-size:10px;line-height:1.3;border-radius:3px;padding:1px 4px;margin-bottom:2px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .mc-more{font-size:10px;color:var(--text3);padding-left:2px;}
 
-/* ── YEAR VIEW ── */
-.year-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+/* ── YEAR ── */
+.year-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
 @media(max-width:700px){.year-grid{grid-template-columns:repeat(2,1fr);}}
-.yr-month{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px;cursor:pointer;transition:border-color 0.15s;}
+.yr-month{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px;cursor:pointer;transition:border-color .15s;}
 .yr-month:hover{border-color:var(--accent);}
-.yr-mth-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;}
-.yr-mth-count{font-size:11px;color:var(--text3);font-weight:400;}
+.yr-mth-hd{font-size:12px;font-weight:500;color:var(--text);margin-bottom:6px;display:flex;justify-content:space-between;}
+.yr-mth-ct{font-size:10px;color:var(--text3);font-weight:400;}
 .yr-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;margin-bottom:3px;}
 .yr-dow div{text-align:center;font-size:8px;color:var(--text3);}
 .yr-mini{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
-.yr-d{height:12px;border-radius:2px;font-size:0;}
+.yr-d{height:11px;border-radius:2px;}
 .yr-d.empty{background:transparent;}
 .yr-d.off{background:var(--surface2);}
-.yr-d.work{background:#C5D9EE;cursor:pointer;}
-.yr-d.work.has-data{background:var(--accent);opacity:0.8;}
-.yr-d.work:hover{opacity:1;}
+.yr-d.work{background:#D0E3F4;}
+.yr-d.work.has-data{background:var(--accent);opacity:.75;}
 .yr-d.is-today{outline:2px solid #E53935;outline-offset:0;}
 
 /* Legend */
 .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
 .leg{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2);}
 .leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-
-/* Stats */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:1.25rem;}
-.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1rem;}
-.stat-val{font-size:22px;font-family:'DM Serif Display',serif;}
-.stat-lbl{font-size:11px;color:var(--text3);margin-top:2px;}
-
-.loading{text-align:center;padding:3rem;color:var(--text3);font-size:14px;}
 </style>
 </head>
 <body>
-<div class="page">
-  <div class="hdr">
-    <div>
-      <h1 id="page-title">Your <em>Time Table</em></h1>
-      <div class="hdr-meta" id="meta">Loading…</div>
+
+<!-- ══ ONBOARDING ══ -->
+<div id="onboarding">
+  <div class="ob-card">
+    <h1>Your <em>Time Table</em></h1>
+    <p class="ob-sub">Connect any Google Sheet timetable and get a live Day, Week, Month &amp; Year dashboard. Updates every time you refresh.</p>
+    <div class="ob-steps">
+      <div class="ob-step"><div class="ob-n">1</div><p>Open your timetable in <strong>Google Sheets</strong>. Column A = dates, Column B = day names, Columns C onwards = time slots as headers (e.g. <code>9:30 AM – 11:00 AM</code>).</p></div>
+      <div class="ob-step"><div class="ob-n">2</div><p>Click <strong>File → Share → Publish to web</strong>. Pick your sheet tab, select <code>Comma-separated values (.csv)</code>, click <strong>Publish</strong>.</p></div>
+      <div class="ob-step"><div class="ob-n">3</div><p>Copy the link and paste it below.</p></div>
     </div>
-  </div>
-
-  <!-- Shift+U to reveal -->
-  <div class="admin-bar" id="admin-bar">
-    <label>Sheet URL:</label>
-    <input type="text" id="sheet-url" placeholder="Paste Google Sheet CSV link…"/>
-    <button class="btn" onclick="loadSheet()">Load</button>
-    <button class="btn-sm" onclick="clearSaved()">Clear</button>
-    <span id="status"></span>
-  </div>
-
-  <div id="loading" class="loading">Loading timetable…</div>
-
-  <div id="dash" style="display:none">
-    <div class="tabs">
-      <button class="tab" onclick="switchTab('day',this)">Day</button>
-      <button class="tab active" onclick="switchTab('week',this)">Week</button>
-      <button class="tab" onclick="switchTab('month',this)">Month</button>
-      <button class="tab" onclick="switchTab('year',this)">Year</button>
+    <div class="ob-row">
+      <input type="text" id="ob-input" placeholder="https://docs.google.com/spreadsheets/d/e/…/pub?…output=csv"/>
+      <button class="ob-btn" id="ob-btn" onclick="startDashboard()">Open →</button>
     </div>
-
-    <!-- DAY -->
-    <div id="view-day" class="view">
-      <div class="nav-row">
-        <button class="nav-btn" onclick="shiftDay(-1)">&#8592;</button>
-        <button class="nav-btn" onclick="shiftDay(1)">&#8594;</button>
-        <span class="nav-title" id="day-title"></span>
-        <button class="nav-today" onclick="goToday('day')">Today</button>
-      </div>
-      <div id="day-content"></div>
-    </div>
-
-    <!-- WEEK -->
-    <div id="view-week" class="view active">
-      <div class="nav-row">
-        <button class="nav-btn" onclick="shiftWeek(-1)">&#8592;</button>
-        <button class="nav-btn" onclick="shiftWeek(1)">&#8594;</button>
-        <span class="nav-title" id="week-title"></span>
-        <button class="nav-today" onclick="goToday('week')">Today</button>
-      </div>
-      <div class="stats" id="week-stats"></div>
-      <div id="week-content"></div>
-      <div class="legend" id="week-legend"></div>
-    </div>
-
-    <!-- MONTH -->
-    <div id="view-month" class="view">
-      <div class="nav-row">
-        <button class="nav-btn" onclick="shiftMonth(-1)">&#8592;</button>
-        <button class="nav-btn" onclick="shiftMonth(1)">&#8594;</button>
-        <span class="nav-title" id="month-title"></span>
-        <button class="nav-today" onclick="goToday('month')">Today</button>
-      </div>
-      <div id="month-content"></div>
-      <div class="legend" id="month-legend"></div>
-    </div>
-
-    <!-- YEAR -->
-    <div id="view-year" class="view">
-      <div class="nav-row">
-        <button class="nav-btn" onclick="shiftYear(-1)">&#8592;</button>
-        <button class="nav-btn" onclick="shiftYear(1)">&#8594;</button>
-        <span class="nav-title" id="year-title"></span>
-        <button class="nav-today" onclick="goToday('year')">Today</button>
-      </div>
-      <div id="year-content"></div>
-    </div>
+    <div class="ob-err" id="ob-err"></div>
+    <p class="ob-note">Your link is saved in this browser — next visit loads automatically. Click "Change sheet" anytime to switch to a different sheet.</p>
   </div>
 </div>
 
-<script>
-var SHEET_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vS-4253V0CGVPKAv0mbji4vXiIUJ4-DjG97p7gOBDi0nZ8Q1DqlQhRfPKhcoWYODw/pub?gid=437593195&single=true&output=csv';
-var KEY='your_tt_v6';
+<!-- ══ DASHBOARD ══ -->
+<div id="dashboard">
+<div class="page">
+  <div class="hdr">
+    <div class="hdr-left">
+      <h1 id="page-title">Your <em>Time Table</em></h1>
+      <div class="hdr-meta" id="meta"></div>
+    </div>
+    <div class="hdr-right">
+      <button class="btn-sm" onclick="refreshData()">↻ Refresh</button>
+      <button class="btn-sm" onclick="changeSheet()">Change sheet</button>
+    </div>
+  </div>
 
-var data=[], timeSlots=[];
+  <div class="tabs">
+    <button class="tab" onclick="switchTab('day',this)">Day</button>
+    <button class="tab active" onclick="switchTab('week',this)">Week</button>
+    <button class="tab" onclick="switchTab('month',this)">Month</button>
+    <button class="tab" onclick="switchTab('year',this)">Year</button>
+  </div>
+
+  <!-- DAY -->
+  <div id="view-day" class="view">
+    <div class="nav-row">
+      <button class="nav-btn" onclick="shiftDay(-1)">&#8592;</button>
+      <button class="nav-btn" onclick="shiftDay(1)">&#8594;</button>
+      <span class="nav-title" id="day-title"></span>
+      <button class="nav-today" onclick="goToday('day')">Today</button>
+    </div>
+    <div id="day-content"></div>
+  </div>
+
+  <!-- WEEK -->
+  <div id="view-week" class="view active">
+    <div class="nav-row">
+      <button class="nav-btn" onclick="shiftWeek(-1)">&#8592;</button>
+      <button class="nav-btn" onclick="shiftWeek(1)">&#8594;</button>
+      <span class="nav-title" id="week-title"></span>
+      <button class="nav-today" onclick="goToday('week')">Today</button>
+    </div>
+    <div class="stats" id="week-stats"></div>
+    <div id="week-content"></div>
+    <div class="legend" id="week-legend"></div>
+  </div>
+
+  <!-- MONTH -->
+  <div id="view-month" class="view">
+    <div class="nav-row">
+      <button class="nav-btn" onclick="shiftMonth(-1)">&#8592;</button>
+      <button class="nav-btn" onclick="shiftMonth(1)">&#8594;</button>
+      <span class="nav-title" id="month-title"></span>
+      <button class="nav-today" onclick="goToday('month')">Today</button>
+    </div>
+    <div id="month-content"></div>
+    <div class="legend" id="month-legend"></div>
+  </div>
+
+  <!-- YEAR -->
+  <div id="view-year" class="view">
+    <div class="nav-row">
+      <button class="nav-btn" onclick="shiftYear(-1)">&#8592;</button>
+      <button class="nav-btn" onclick="shiftYear(1)">&#8594;</button>
+      <span class="nav-title" id="year-title"></span>
+      <button class="nav-today" onclick="goToday('year')">Today</button>
+    </div>
+    <div id="year-content"></div>
+  </div>
+</div>
+</div>
+
+<script>
+var KEY='tt_dash_v1';
+var data=[],timeSlots=[];
 var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 var MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 var DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-var COLORS=[
-  {bg:'#EAF1F9',text:'#2A5C8F',dot:'#378ADD'},
-  {bg:'#E3F3EE',text:'#1A7A62',dot:'#1D9E75'},
-  {bg:'#FAF0EB',text:'#BF4E28',dot:'#D85A30'},
-  {bg:'#FBF3E2',text:'#A86B10',dot:'#BA7517'},
-  {bg:'#EEEBF9',text:'#5B3FA6',dot:'#7F77DD'},
-  {bg:'#F9EAF3',text:'#9C2A6A',dot:'#D4537E'},
-  {bg:'#EAF3DE',text:'#3B6D11',dot:'#639922'},
-  {bg:'#F1EFE8',text:'#444441',dot:'#888780'},
-];
+var COLORS=[{bg:'#EAF1F9',text:'#2A5C8F',dot:'#378ADD'},{bg:'#E3F3EE',text:'#1A7A62',dot:'#1D9E75'},{bg:'#FAF0EB',text:'#BF4E28',dot:'#D85A30'},{bg:'#FBF3E2',text:'#A86B10',dot:'#BA7517'},{bg:'#EEEBF9',text:'#5B3FA6',dot:'#7F77DD'},{bg:'#F9EAF3',text:'#9C2A6A',dot:'#D4537E'},{bg:'#EAF3DE',text:'#3B6D11',dot:'#639922'},{bg:'#F1EFE8',text:'#444441',dot:'#888780'}];
 
-// Current view state
-var curDay   = new Date();
-var curWeekStart = weekStart(new Date());
-var curMonth = new Date().getMonth();
-var curYear  = new Date().getFullYear();
+var curDay=new Date(),curWeekStart=weekStart(new Date()),curMonth=new Date().getMonth(),curYear=new Date().getFullYear();
 
-function weekStart(d) {
-  var dt=new Date(d); var dow=dt.getDay(); var diff=dow===0?-6:1-dow;
-  dt.setDate(dt.getDate()+diff); dt.setHours(0,0,0,0); return dt;
-}
-function addDays(d,n){ var dt=new Date(d); dt.setDate(dt.getDate()+n); return dt; }
-function sameDay(a,b){ return a&&b&&a.getDate()===b.getDate()&&a.getMonth()===b.getMonth()&&a.getFullYear()===b.getFullYear(); }
-function fmtD(d){ return d.getDate()+' '+MS[d.getMonth()]; }
-function fmt12(h,m){ var s=h<12?'AM':'PM'; var hh=h%12||12; return hh+(m?':'+('0'+m).slice(-2):'')+' '+s; }
-function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function mkStat(v,l){ return '<div class="stat"><div class="stat-val">'+v+'</div><div class="stat-lbl">'+l+'</div></div>'; }
-
-// ── Admin ──
-document.addEventListener('keydown',function(e){
-  if(e.shiftKey&&e.key==='U'){
-    var b=document.getElementById('admin-bar'); b.classList.toggle('visible');
-    if(b.classList.contains('visible')) document.getElementById('sheet-url').value=localStorage.getItem(KEY)||SHEET_URL;
-  }
-});
-function clearSaved(){ localStorage.removeItem(KEY); document.getElementById('sheet-url').value=SHEET_URL; setStatus('Cleared.',''); }
-function setStatus(m,c){ var e=document.getElementById('status'); e.textContent=m; e.className=c; }
+function weekStart(d){var dt=new Date(d),dow=dt.getDay(),diff=dow===0?-6:1-dow;dt.setDate(dt.getDate()+diff);dt.setHours(0,0,0,0);return dt;}
+function addDays(d,n){var dt=new Date(d);dt.setDate(dt.getDate()+n);return dt;}
+function sameDay(a,b){return a&&b&&a.getDate()===b.getDate()&&a.getMonth()===b.getMonth()&&a.getFullYear()===b.getFullYear();}
+function fmtD(d){return d.getDate()+' '+MS[d.getMonth()];}
+function fmt12(h,m){var s=h<12?'AM':'PM',hh=h%12||12;return hh+(m?':'+('0'+m).slice(-2):'')+' '+s;}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function mkStat(v,l){return'<div class="stat"><div class="stat-val">'+v+'</div><div class="stat-lbl">'+l+'</div></div>';}
+function getRow(date){return data.find(function(r){return r.date&&sameDay(r.date,date);})||null;}
 
 // ── Boot ──
 window.onload=function(){
-  var url=localStorage.getItem(KEY)||SHEET_URL;
-  document.getElementById('sheet-url').value=url;
-  fetchAndRender(url);
+  var saved=localStorage.getItem(KEY);
+  if(saved){document.getElementById('ob-input').value=saved;fetchAndRender(saved);}
+  else{document.getElementById('onboarding').style.display='flex';}
 };
-function loadSheet(){ var url=document.getElementById('sheet-url').value.trim(); if(url) fetchAndRender(url); }
+
+function startDashboard(){
+  var url=document.getElementById('ob-input').value.trim();
+  if(!url){document.getElementById('ob-err').textContent='Please paste your Google Sheet CSV link.';return;}
+  document.getElementById('ob-btn').disabled=true;
+  document.getElementById('ob-err').textContent='Loading…';
+  fetchAndRender(url);
+}
+
+function changeSheet(){
+  localStorage.removeItem(KEY);
+  document.getElementById('dashboard').style.display='none';
+  document.getElementById('onboarding').style.display='flex';
+  document.getElementById('ob-input').value='';
+  document.getElementById('ob-err').textContent='';
+  document.getElementById('ob-btn').disabled=false;
+}
+
+function refreshData(){
+  var url=localStorage.getItem(KEY);
+  if(url) fetchAndRender(url);
+}
 
 function fetchAndRender(url){
-  document.getElementById('loading').style.display='block';
-  document.getElementById('dash').style.display='none';
-  setStatus('Loading…','');
   fetch(url)
-    .then(function(r){ if(!r.ok) throw new Error('Cannot fetch. Is the sheet published?'); return r.text(); })
+    .then(function(r){if(!r.ok)throw new Error('Cannot fetch. Make sure the sheet is published to web as CSV.');return r.text();})
     .then(function(csv){
-      var p=parseCSV(csv); data=p.rows; timeSlots=p.slots;
-      if(!data.length) throw new Error('No data found.');
+      var p=parseCSV(csv);data=p.rows;timeSlots=p.slots;
+      if(!data.length)throw new Error('No data found. Check column A has dates and column B has day names.');
       localStorage.setItem(KEY,url);
-      setStatus('Loaded '+data.length+' entries · '+new Date().toLocaleTimeString(),'ok');
-      document.getElementById('meta').textContent='Live from Google Sheets · last refreshed '+new Date().toLocaleString();
-      document.getElementById('loading').style.display='none';
-      document.getElementById('dash').style.display='block';
+      document.getElementById('ob-btn').disabled=false;
+      document.getElementById('ob-err').textContent='';
+      document.getElementById('meta').textContent='Live from Google Sheets · refreshed '+new Date().toLocaleString();
       setTitle(p.title);
-      // Default: open the most relevant week
+      document.getElementById('onboarding').style.display='none';
+      document.getElementById('dashboard').style.display='block';
       curWeekStart=getBestWeekStart();
       curDay=new Date(curWeekStart);
+      curMonth=curWeekStart.getMonth();
+      curYear=curWeekStart.getFullYear();
       renderAll();
     })
     .catch(function(e){
-      document.getElementById('loading').style.display='none';
-      document.getElementById('meta').textContent='Could not load — press Shift+U to update URL';
-      setStatus('Error: '+e.message,'err');
-      document.getElementById('admin-bar').classList.add('visible');
+      document.getElementById('ob-btn').disabled=false;
+      document.getElementById('ob-err').textContent='Error: '+e.message;
+      if(document.getElementById('dashboard').style.display==='block')
+        document.getElementById('meta').textContent='Could not refresh — '+e.message;
     });
 }
 
-function setTitle(title){
-  var parts=title.trim().split(/\s+/);
-  var first=parts[0]||'Your', rest=parts.slice(1).join(' ')||'Time Table';
-  document.getElementById('page-title').innerHTML=esc(first)+' <em>'+esc(rest)+'</em>';
-  document.title=title;
+function setTitle(t){
+  var p=t.trim().split(/\s+/),f=p[0]||'Your',r=p.slice(1).join(' ')||'Time Table';
+  document.getElementById('page-title').innerHTML=esc(f)+' <em>'+esc(r)+'</em>';
+  document.title=t;
 }
 
 function getBestWeekStart(){
-  // Find the week in data closest to today
-  var today=new Date(); today.setHours(0,0,0,0);
-  var best=null, bestDiff=Infinity;
-  data.forEach(function(r){
-    if(!r.date||r.off) return;
-    var ws=weekStart(r.date);
-    var diff=Math.abs(ws-today);
-    if(diff<bestDiff){ bestDiff=diff; best=ws; }
-  });
+  var today=new Date();today.setHours(0,0,0,0);
+  var best=null,bestDiff=Infinity;
+  data.forEach(function(r){if(!r.date||r.off)return;var ws=weekStart(r.date),diff=Math.abs(ws-today);if(diff<bestDiff){bestDiff=diff;best=ws;}});
   return best||weekStart(today);
 }
 
-// ── CSV / Date Parser ──
-function splitLine(line){
-  var res=[],cur='',inQ=false;
-  for(var i=0;i<line.length;i++){
-    var c=line[i];
-    if(c==='"'){inQ=!inQ;}
-    else if(c===','&&!inQ){res.push(cur.trim());cur='';}
-    else{cur+=c;}
-  }
-  res.push(cur.trim()); return res;
-}
-
-function parseDate(raw){
-  if(!raw) return null; raw=raw.trim();
-  var m=raw.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);
-  if(m) return new Date(+m[3],+m[2]-1,+m[1]);
-  var m2=raw.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
-  if(m2) return new Date(+m2[1],+m2[2]-1,+m2[3]);
-  if(/^\d+$/.test(raw)){var s=+raw; if(s>1000) return new Date(new Date(1899,11,30).getTime()+s*86400000);}
-  var d=new Date(raw); return isNaN(d)?null:d;
-}
-
-function parseTimeRange(str){
-  if(!str) return null;
-  str=str.replace(/\(.*?\)/g,'').trim();
-  var sep=str.indexOf('–')!==-1?'–':'-';
-  var parts=str.split(sep); if(parts.length<2) return null;
-  function pt(t){
-    t=t.trim(); var pm=/pm/i.test(t),am=/am/i.test(t);
-    t=t.replace(/[apmAPM\s]/g,'');
-    var m=t.match(/(\d{1,2}):(\d{2})/)||t.match(/(\d{1,2})/);
-    if(!m) return null;
-    var h=+m[1],min=+(m[2]||0);
-    if(pm&&h!==12) h+=12;
-    if(am&&h===12) h=0;
-    return {h,m:min};
-  }
-  var s=pt(parts[0]),e=pt(parts[parts.length-1]);
-  if(!s||!e) return null;
-  return {startH:s.h,startM:s.m,endH:e.h,endM:e.m};
-}
-
+// ── Parsers ──
+function splitLine(line){var res=[],cur='',inQ=false;for(var i=0;i<line.length;i++){var c=line[i];if(c==='"'){inQ=!inQ;}else if(c===','&&!inQ){res.push(cur.trim());cur='';}else{cur+=c;}}res.push(cur.trim());return res;}
+function parseDate(raw){if(!raw)return null;raw=raw.trim();var m=raw.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);if(m)return new Date(+m[3],+m[2]-1,+m[1]);var m2=raw.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);if(m2)return new Date(+m2[1],+m2[2]-1,+m2[3]);if(/^\d+$/.test(raw)){var s=+raw;if(s>1000)return new Date(new Date(1899,11,30).getTime()+s*86400000);}var d=new Date(raw);return isNaN(d)?null:d;}
+function parseTimeRange(str){if(!str)return null;str=str.replace(/\(.*?\)/g,'').trim();var sep=str.indexOf('–')!==-1?'–':'-';var parts=str.split(sep);if(parts.length<2)return null;function pt(t){t=t.trim();var pm=/pm/i.test(t),am=/am/i.test(t);t=t.replace(/[apmAPM\s]/g,'');var m=t.match(/(\d{1,2}):(\d{2})/)||t.match(/(\d{1,2})/);if(!m)return null;var h=+m[1],min=+(m[2]||0);if(pm&&h!==12)h+=12;if(am&&h===12)h=0;return{h:h,m:min};}var s=pt(parts[0]),e=pt(parts[parts.length-1]);if(!s||!e)return null;return{startH:s.h,startM:s.m,endH:e.h,endM:e.m};}
 function parseCSV(text){
   var lines=text.split(/\r?\n/).map(function(l){return l.trim();});
   var rows=lines.filter(function(l){return l.length>0;}).map(splitLine);
-
   var headerIdx=1;
-  for(var i=0;i<Math.min(rows.length,5);i++){
-    if((rows[i][1]||'').toLowerCase().trim()==='day'){headerIdx=i;break;}
-  }
-
-  // Title from row before headers
+  for(var i=0;i<Math.min(rows.length,5);i++){if((rows[i][1]||'').toLowerCase().trim()==='day'){headerIdx=i;break;}}
   var sheetTitle='Your Time Table';
-  if(headerIdx>0&&rows[0]){
-    var t=rows[0].filter(function(c){return c.trim();}).join(' ').trim();
-    var tl=t.toLowerCase();
-    if(t&&tl!=='date'&&tl!=='day'&&tl.indexOf('9:')===-1&&!/^\d/.test(t)) sheetTitle=t;
-  }
-
-  var hdr=rows[headerIdx];
-  var slots=[];
-  for(var c=2;c<hdr.length;c++){
-    var h=(hdr[c]||'').trim(); if(!h) continue;
-    var tr=parseTimeRange(h);
-    var color=COLORS[slots.length%COLORS.length];
-    slots.push({col:c,label:h,color:color,startH:tr?tr.startH:null,startM:tr?tr.startM:0,endH:tr?tr.endH:null,endM:tr?tr.endM:0,hasTime:!!tr});
-  }
-
+  if(headerIdx>0&&rows[0]){var t=rows[0].filter(function(c){return c.trim();}).join(' ').trim();if(t&&t.toLowerCase()!=='date'&&t.toLowerCase()!=='day'&&t.indexOf('9:')===-1&&!/^\d/.test(t))sheetTitle=t;}
+  var hdr=rows[headerIdx],slots=[];
+  for(var c=2;c<hdr.length;c++){var h=(hdr[c]||'').trim();if(!h)continue;var tr=parseTimeRange(h),color=COLORS[slots.length%COLORS.length];slots.push({col:c,label:h,color:color,startH:tr?tr.startH:null,startM:tr?tr.startM:0,endH:tr?tr.endH:null,endM:tr?tr.endM:0,hasTime:!!tr});}
   var result=[],weekNum=1,prevIdx=-1;
   for(var i=headerIdx+1;i<rows.length;i++){
-    var row=rows[i];
-    var dateRaw=(row[0]||'').trim(), dayRaw=(row[1]||'').trim(), dayLow=dayRaw.toLowerCase();
-    if(!dayLow||dayLow==='day') continue;
-    var rowText=row.join('|').toLowerCase();
-    var isSun=dayLow==='sunday', isOff=rowText.indexOf('weekly off')!==-1;
-    var pd=parseDate(dateRaw);
-    if(isSun||isOff){
-      result.push({week:weekNum,day:'Sunday',off:true,date:pd,events:[]});
-      weekNum++;prevIdx=-1;continue;
-    }
-    var dc=dayLow.charAt(0).toUpperCase()+dayLow.slice(1);
-    var ti=DAYS.indexOf(dc);
-    if(ti===0&&prevIdx>=5) weekNum++;
-    prevIdx=ti;
+    var row=rows[i],dateRaw=(row[0]||'').trim(),dayRaw=(row[1]||'').trim(),dayLow=dayRaw.toLowerCase();
+    if(!dayLow||dayLow==='day')continue;
+    var rowText=row.join('|').toLowerCase(),isSun=dayLow==='sunday',isOff=rowText.indexOf('weekly off')!==-1,pd=parseDate(dateRaw);
+    if(isSun||isOff){result.push({week:weekNum,day:'Sunday',off:true,date:pd,events:[]});weekNum++;prevIdx=-1;continue;}
+    var dc=dayLow.charAt(0).toUpperCase()+dayLow.slice(1),ti=DAYS.indexOf(dc);
+    if(ti===0&&prevIdx>=5)weekNum++;prevIdx=ti;
     var events=[];
-    slots.forEach(function(s){
-      var val=(row[s.col]||'').trim();
-      if(val) events.push({label:s.label,value:val,color:s.color,startH:s.startH,startM:s.startM,endH:s.endH,endM:s.endM,hasTime:s.hasTime});
-    });
+    slots.forEach(function(s){var val=(row[s.col]||'').trim();if(val)events.push({label:s.label,value:val,color:s.color,startH:s.startH,startM:s.startM,endH:s.endH,endM:s.endM,hasTime:s.hasTime});});
     result.push({week:weekNum,day:dc,off:false,date:pd,events:events});
   }
-  return {rows:result,slots:slots,title:sheetTitle};
+  return{rows:result,slots:slots,title:sheetTitle};
 }
 
-function getRow(date){
-  return data.find(function(r){ return r.date&&sameDay(r.date,date); })||null;
-}
+function renderAll(){renderDay();renderWeek();renderMonth();renderYear();}
 
-// ── Render all views ──
-function renderAll(){ renderDay(); renderWeek(); renderMonth(); renderYear(); }
-
-// ── DAY VIEW ──
-var TL_START=7, TL_END=20;
-function shiftDay(n){ curDay=addDays(curDay,n); renderDay(); }
-function goToday(view){
-  if(view==='day'){ curDay=new Date(); renderDay(); }
-  if(view==='week'){ curWeekStart=getBestWeekStart(); renderWeek(); }
-  if(view==='month'){ curMonth=new Date().getMonth(); curYear=new Date().getFullYear(); renderMonth(); }
-  if(view==='year'){ curYear=new Date().getFullYear(); renderYear(); }
-}
+// ── DAY ──
+var TL_START=7,TL_END=20,HOUR_H=60;
+function shiftDay(n){curDay=addDays(curDay,n);renderDay();}
+function goToday(v){var t=new Date();if(v==='day'){curDay=t;renderDay();}if(v==='week'){curWeekStart=getBestWeekStart();renderWeek();}if(v==='month'){curMonth=t.getMonth();curYear=t.getFullYear();renderMonth();}if(v==='year'){curYear=t.getFullYear();renderYear();}}
 
 function renderDay(){
-  var today=new Date();
+  var today=new Date(),row=getRow(curDay),isToday=sameDay(curDay,today);
   document.getElementById('day-title').textContent=curDay.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-
-  var row=getRow(curDay);
-  var isToday=sameDay(curDay,today);
-  var html='';
-
-  // Day label
-  html+='<div class="day-label">';
-  html+='<span class="day-label-name">'+curDay.toLocaleDateString('en-GB',{weekday:'long'})+'</span>';
-  html+='<span class="day-label-date">'+fmtD(curDay)+' '+curDay.getFullYear()+'</span>';
-  if(isToday) html+='<span class="day-label-today">Today</span>';
-  html+='</div>';
-
-  if(!row||row.off){
-    html+='<div class="tl-wrap"><div class="day-off-msg">'+(row&&row.off?'Weekly off — no schedule':'No data in sheet for this date')+'</div></div>';
-    document.getElementById('day-content').innerHTML=html;
-    return;
-  }
-
-  var totalH=(TL_END-TL_START)*56;
-  html+='<div class="tl-wrap"><div class="tl-body">';
-  html+='<div class="tl-gutter" style="height:'+totalH+'px">';
-  for(var h=TL_START;h<=TL_END;h++){
-    var top=(h-TL_START)*56;
-    var lbl=h<12?h+' AM':h===12?'12 PM':(h-12)+' PM';
-    html+='<div class="tl-hour-lbl" style="top:'+top+'px">'+lbl+'</div>';
-  }
+  var html='<div class="day-label"><span class="dl-name">'+curDay.toLocaleDateString('en-GB',{weekday:'long'})+'</span><span class="dl-date">'+fmtD(curDay)+' '+curDay.getFullYear()+'</span>'+(isToday?'<span class="dl-today">Today</span>':'')+'</div>';
+  if(!row||row.off){html+='<div class="tl-wrap"><div class="day-off-msg">'+(row&&row.off?'Weekly off — no schedule':'No data in sheet for this date')+'</div></div>';document.getElementById('day-content').innerHTML=html;return;}
+  var totalH=(TL_END-TL_START)*HOUR_H;
+  html+='<div class="tl-wrap"><div class="tl-body"><div class="tl-gutter" style="height:'+totalH+'px">';
+  for(var h=TL_START;h<=TL_END;h++)html+='<div class="tl-hour-lbl" style="top:'+((h-TL_START)*HOUR_H)+'px">'+(h<12?h+' AM':h===12?'12 PM':(h-12)+' PM')+'</div>';
   html+='</div><div class="tl-events" style="height:'+totalH+'px">';
-  for(var h=TL_START;h<=TL_END;h++){
-    html+='<div class="tl-hline" style="top:'+((h-TL_START)*56)+'px"></div>';
-    if(h<TL_END) html+='<div class="tl-hline half" style="top:'+((h-TL_START)*56+28)+'px"></div>';
-  }
-  if(isToday){
-    var now=new Date(), nf=now.getHours()+now.getMinutes()/60;
-    if(nf>=TL_START&&nf<=TL_END){
-      var nt=(nf-TL_START)*56;
-      html+='<div class="tl-now" style="top:'+nt+'px"><div class="tl-now-dot"></div></div>';
-    }
-  }
+  for(var h=TL_START;h<=TL_END;h++){html+='<div class="tl-hline" style="top:'+((h-TL_START)*HOUR_H)+'px"></div>';if(h<TL_END)html+='<div class="tl-hline half" style="top:'+((h-TL_START)*HOUR_H+HOUR_H/2)+'px"></div>';}
+  if(isToday){var now=new Date(),nf=now.getHours()+now.getMinutes()/60;if(nf>=TL_START&&nf<=TL_END)html+='<div class="tl-now" style="top:'+((nf-TL_START)*HOUR_H)+'px"><div class="tl-now-dot"></div></div>';}
   row.events.forEach(function(ev){
-    if(!ev.hasTime) return;
-    var sf=ev.startH+ev.startM/60, ef=ev.endH+ev.endM/60;
-    var vs=Math.max(sf,TL_START), ve=Math.min(ef,TL_END);
-    if(vs>=ve) return;
-    var top=(vs-TL_START)*56, ht=Math.max((ve-vs)*56,28);
-    html+='<div class="tl-event" style="top:'+top+'px;height:'+ht+'px;background:'+ev.color.bg+';border-left:3px solid '+ev.color.dot+'">';
+    if(!ev.hasTime)return;
+    var sf=ev.startH+ev.startM/60,ef=ev.endH+ev.endM/60,vs=Math.max(sf,TL_START),ve=Math.min(ef,TL_END);
+    if(vs>=ve)return;
+    var durationMins=(ve-vs)*60,top=(vs-TL_START)*HOUR_H,ht=Math.max((ve-vs)*HOUR_H,40),isCompact=durationMins<=50;
+    html+='<div class="tl-event'+(isCompact?' compact':'')+'" style="top:'+top+'px;height:'+ht+'px;background:'+ev.color.bg+';border-left:3px solid '+ev.color.dot+'">';
     html+='<div class="tl-ev-time" style="color:'+ev.color.text+'">'+fmt12(ev.startH,ev.startM)+' – '+fmt12(ev.endH,ev.endM)+'</div>';
-    html+='<div class="tl-ev-title" style="color:'+ev.color.text+'">'+esc(ev.value)+'</div>';
-    html+='</div>';
+    html+='<div class="tl-ev-title" style="color:'+ev.color.text+'">'+esc(ev.value)+'</div></div>';
   });
   html+='</div></div></div>';
   document.getElementById('day-content').innerHTML=html;
 }
 
-// ── WEEK VIEW ──
-function shiftWeek(n){ curWeekStart=addDays(curWeekStart,n*7); renderWeek(); }
-
+// ── WEEK ──
+function shiftWeek(n){curWeekStart=addDays(curWeekStart,n*7);renderWeek();}
 function renderWeek(){
-  var today=new Date();
-  var weekEnd=addDays(curWeekStart,6);
-  document.getElementById('week-title').textContent=fmtD(curWeekStart)+' – '+fmtD(weekEnd)+' '+weekEnd.getFullYear();
-
-  var totalEvs=0, activeDays=0, offDays=0;
+  var today=new Date(),we=addDays(curWeekStart,6),totalEvs=0,active=0,off=0;
+  document.getElementById('week-title').textContent=fmtD(curWeekStart)+' – '+fmtD(we)+' '+we.getFullYear();
   var html='<div class="week-grid">';
-
   for(var i=0;i<7;i++){
-    var d=addDays(curWeekStart,i);
-    var dayName=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i];
-    var row=getRow(d);
-    var isToday=sameDay(d,today);
-    var hasData=row&&!row.off;
-    if(hasData) activeDays++;
-    if(row&&row.off) offDays++;
-
-    html+='<div class="week-grid-col">';
-    html+='<div class="wk-day-head'+(isToday?' today-head':'')+'" onclick="openDay(\''+d.toISOString()+'\')" title="Open day view">';
-    html+='<div class="wk-day-name">'+dayName+'</div>';
-    html+='<div class="wk-day-num">'+d.getDate()+'</div>';
-    html+='</div>';
-    html+='<div class="wk-events'+(isToday?' today-col':'')+'">';
-
-    if(row&&row.off){
-      html+='<div class="wk-off">Off</div>';
-    } else if(hasData){
-      row.events.forEach(function(ev){
-        totalEvs++;
-        html+='<div class="wk-ev" style="background:'+ev.color.bg+';color:'+ev.color.text+'" onclick="openDay(\''+d.toISOString()+'\')" title="'+esc(ev.value)+'">';
-        if(ev.hasTime) html+='<div class="wk-ev-time">'+fmt12(ev.startH,ev.startM)+'</div>';
-        html+='<div>'+esc(ev.value)+'</div>';
-        html+='</div>';
-      });
-    } else {
-      html+='<div class="wk-off">No data</div>';
-    }
+    var d=addDays(curWeekStart,i),dn=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i],row=getRow(d),isToday=sameDay(d,today),hasData=row&&!row.off;
+    if(hasData)active++;if(row&&row.off)off++;
+    html+='<div class="wk-col"><div class="wk-head'+(isToday?' today':'')+'" onclick="openDay(\''+d.toISOString()+'\')">';
+    html+='<div class="wk-dname">'+dn+'</div><div class="wk-dnum">'+d.getDate()+'</div></div>';
+    html+='<div class="wk-body'+(isToday?' today':'')+'">';
+    if(row&&row.off)html+='<div class="wk-off">Off</div>';
+    else if(hasData){row.events.forEach(function(ev){totalEvs++;html+='<div class="wk-ev" style="background:'+ev.color.bg+';color:'+ev.color.text+'" onclick="openDay(\''+d.toISOString()+'\')">'+(ev.hasTime?'<div class="wk-ev-time">'+fmt12(ev.startH,ev.startM)+'</div>':'')+'<div>'+esc(ev.value)+'</div></div>';});}
+    else html+='<div class="wk-off">No data</div>';
     html+='</div></div>';
   }
   html+='</div>';
-
   document.getElementById('week-content').innerHTML=html;
-  document.getElementById('week-stats').innerHTML=
-    mkStat(activeDays,'Active days')+mkStat(offDays,'Days off')+mkStat(totalEvs,'Events this week');
-
-  // Legend
-  var leg='';
-  timeSlots.forEach(function(s){ leg+='<div class="leg"><div class="leg-dot" style="background:'+s.color.dot+'"></div>'+esc(s.label)+'</div>'; });
+  document.getElementById('week-stats').innerHTML=mkStat(active,'Active days')+mkStat(off,'Days off')+mkStat(totalEvs,'Events this week');
+  var leg='';timeSlots.forEach(function(s){leg+='<div class="leg"><div class="leg-dot" style="background:'+s.color.dot+'"></div>'+esc(s.label)+'</div>';});
   document.getElementById('week-legend').innerHTML=leg;
 }
+function openDay(iso){curDay=new Date(iso);switchTabByName('day');renderDay();}
 
-function openDay(isoStr){
-  curDay=new Date(isoStr);
-  switchTabByName('day');
-  renderDay();
-}
-
-// ── MONTH VIEW ──
-function shiftMonth(n){
-  curMonth+=n;
-  if(curMonth>11){curMonth=0;curYear++;}
-  if(curMonth<0){curMonth=11;curYear--;}
-  renderMonth();
-}
-
+// ── MONTH ──
+function shiftMonth(n){curMonth+=n;if(curMonth>11){curMonth=0;curYear++;}if(curMonth<0){curMonth=11;curYear--;}renderMonth();}
 function renderMonth(){
   document.getElementById('month-title').textContent=MONTHS[curMonth]+' '+curYear;
-  var first=new Date(curYear,curMonth,1).getDay();
-  var daysIn=new Date(curYear,curMonth+1,0).getDate();
-  var today=new Date();
-
+  var first=new Date(curYear,curMonth,1).getDay(),daysIn=new Date(curYear,curMonth+1,0).getDate(),today=new Date();
   var html='<div class="month-grid">';
-  // DOW headers
-  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(function(d){ html+='<div class="month-dow">'+d+'</div>'; });
-  // Empty cells before first
-  for(var i=0;i<first;i++) html+='<div class="month-cell empty"></div>';
-
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(function(d){html+='<div class="month-dow">'+d+'</div>';});
+  for(var i=0;i<first;i++)html+='<div class="month-cell empty"></div>';
   for(var d=1;d<=daysIn;d++){
-    var dt=new Date(curYear,curMonth,d);
-    var dow=dt.getDay();
-    var isOff=dow===0;
-    var isToday=sameDay(dt,today);
-    var row=getRow(dt);
-    var hasData=row&&!row.off&&row.events.length>0;
-
-    var cls='month-cell'+(isOff?' off':'')+(isToday?' today':'')+(hasData?' has-data':'');
-    var onclick=(!isOff&&hasData)?'onclick="openDayFromMonth('+curYear+','+curMonth+','+d+')"':'';
-    html+='<div class="'+cls+'" '+onclick+'>';
-    html+='<div class="mc-num">'+d+'</div>';
-    if(hasData){
-      var shown=row.events.slice(0,3);
-      shown.forEach(function(ev){
-        html+='<div class="mc-ev" style="background:'+ev.color.bg+';color:'+ev.color.text+'">'+esc(ev.value)+'</div>';
-      });
-      if(row.events.length>3) html+='<div class="mc-more">+' +(row.events.length-3)+' more</div>';
-    } else if(isOff){
-      html+='<div style="font-size:10px;color:var(--text3);margin-top:2px;">Off</div>';
-    }
+    var dt=new Date(curYear,curMonth,d),dow=dt.getDay(),isOff=dow===0,isToday=sameDay(dt,today),row=getRow(dt),hasData=row&&!row.off&&row.events.length>0;
+    var cls='month-cell'+(isOff?' off':'')+(isToday?' today':'');
+    var oc=hasData?'onclick="openDayFromMonth('+curYear+','+curMonth+','+d+')"':'';
+    html+='<div class="'+cls+'" '+oc+'><div class="mc-num">'+d+'</div>';
+    if(hasData){row.events.slice(0,3).forEach(function(ev){html+='<div class="mc-ev" style="background:'+ev.color.bg+';color:'+ev.color.text+'">'+esc(ev.value)+'</div>';});if(row.events.length>3)html+='<div class="mc-more">+'+(row.events.length-3)+' more</div>';}
+    else if(isOff)html+='<div style="font-size:10px;color:var(--text3);margin-top:2px;">Off</div>';
     html+='</div>';
   }
   html+='</div>';
   document.getElementById('month-content').innerHTML=html;
-
-  var leg='';
-  timeSlots.forEach(function(s){ leg+='<div class="leg"><div class="leg-dot" style="background:'+s.color.dot+'"></div>'+esc(s.label)+'</div>'; });
+  var leg='';timeSlots.forEach(function(s){leg+='<div class="leg"><div class="leg-dot" style="background:'+s.color.dot+'"></div>'+esc(s.label)+'</div>';});
   leg+='<div class="leg"><div class="leg-dot" style="background:var(--surface2);border:1px solid var(--border)"></div>Weekly Off</div>';
   document.getElementById('month-legend').innerHTML=leg;
 }
+function openDayFromMonth(y,m,d){curDay=new Date(y,m,d);switchTabByName('day');renderDay();}
 
-function openDayFromMonth(y,m,d){
-  curDay=new Date(y,m,d);
-  switchTabByName('day');
-  renderDay();
-}
-
-// ── YEAR VIEW ──
-function shiftYear(n){ curYear+=n; renderYear(); }
-
+// ── YEAR ──
+function shiftYear(n){curYear+=n;renderYear();}
 function renderYear(){
   document.getElementById('year-title').textContent=curYear;
-  var today=new Date();
-  var html='<div class="year-grid">';
-
+  var today=new Date(),html='<div class="year-grid">';
   for(var m=0;m<12;m++){
-    var daysIn=new Date(curYear,m+1,0).getDate();
-    var firstD=new Date(curYear,m,1).getDay();
-    // Count days that have actual sheet data
-    var dataCount=0;
-    data.forEach(function(r){
-      if(r.date&&!r.off&&r.date.getMonth()===m&&r.date.getFullYear()===curYear) dataCount++;
-    });
-
-    html+='<div class="yr-month" onclick="openMonth('+m+')" title="Open '+MONTHS[m]+'">';
-    html+='<div class="yr-mth-title">'+MS[m]+'<span class="yr-mth-count">'+dataCount+' days</span></div>';
-    html+='<div class="yr-dow">';
-    ['S','M','T','W','T','F','S'].forEach(function(d){ html+='<div>'+d+'</div>'; });
-    html+='</div>';
+    var daysIn=new Date(curYear,m+1,0).getDate(),firstD=new Date(curYear,m,1).getDay(),dataCount=0;
+    data.forEach(function(r){if(r.date&&!r.off&&r.date.getMonth()===m&&r.date.getFullYear()===curYear)dataCount++;});
+    html+='<div class="yr-month" onclick="openMonth('+m+')">';
+    html+='<div class="yr-mth-hd">'+MS[m]+' '+curYear+'<span class="yr-mth-ct">'+dataCount+' days</span></div>';
+    html+='<div class="yr-dow">'+['S','M','T','W','T','F','S'].map(function(d){return'<div>'+d+'</div>';}).join('')+'</div>';
     html+='<div class="yr-mini">';
-    for(var i=0;i<firstD;i++) html+='<div class="yr-d empty"></div>';
+    for(var i=0;i<firstD;i++)html+='<div class="yr-d empty"></div>';
     for(var d=1;d<=daysIn;d++){
-      var dt=new Date(curYear,m,d);
-      var dow=dt.getDay();
-      var isOff=dow===0;
-      var isToday=sameDay(dt,today);
-      // Only colour as has-data if there's actual sheet data
-      var hasData=data.some(function(r){ return r.date&&!r.off&&sameDay(r.date,dt); });
-      var cls='yr-d';
-      if(isOff) cls+=' off';
-      else if(hasData) cls+=' work has-data';
-      else cls+=' work';
-      if(isToday) cls+=' is-today';
-      html+='<div class="'+cls+'" title="'+d+' '+MS[m]+'"></div>';
+      var dt=new Date(curYear,m,d),dow=dt.getDay(),isOff=dow===0,isToday=sameDay(dt,today);
+      var hasData=data.some(function(r){return r.date&&!r.off&&sameDay(r.date,dt);});
+      html+='<div class="yr-d'+(isOff?' off':hasData?' work has-data':' work')+(isToday?' is-today':'')+'" title="'+d+' '+MS[m]+'"></div>';
     }
     html+='</div></div>';
   }
   html+='</div>';
   document.getElementById('year-content').innerHTML=html;
 }
+function openMonth(m){curMonth=m;switchTabByName('month');renderMonth();}
 
-function openMonth(m){
-  curMonth=m;
-  switchTabByName('month');
-  renderMonth();
-}
-
-// ── Tab switching ──
-function switchTab(name,el){
-  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
-  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
-  el.classList.add('active');
-  document.getElementById('view-'+name).classList.add('active');
-}
-function switchTabByName(name){
-  document.querySelectorAll('.tab').forEach(function(t){
-    var active=t.getAttribute('onclick')&&t.getAttribute('onclick').indexOf("'"+name+"'")!==-1;
-    t.classList.toggle('active',active);
-  });
-  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
-  document.getElementById('view-'+name).classList.add('active');
-}
+// ── Tabs ──
+function switchTab(name,el){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});el.classList.add('active');document.getElementById('view-'+name).classList.add('active');}
+function switchTabByName(name){document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('active',t.getAttribute('onclick')&&t.getAttribute('onclick').indexOf("'"+name+"'")!==-1);});document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});document.getElementById('view-'+name).classList.add('active');}
 </script>
 </body>
 </html>
