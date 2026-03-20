@@ -68,6 +68,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .day-name { font-weight: 500; font-size: 14px; min-width: 88px; }
 .day-date { font-size: 12px; color: var(--text3); margin-right: auto; }
 .day-slots { display: grid; grid-template-columns: repeat(3, 1fr); }
+.day-slots-4 { grid-template-columns: repeat(4, 1fr); }
 .slot { padding: 11px 14px; border-right: 1px solid var(--border); }
 .slot:last-child { border-right: none; }
 .slot-time { font-size: 10px; color: var(--text3); letter-spacing: 0.03em; margin-bottom: 4px; text-transform: uppercase; }
@@ -376,8 +377,9 @@ function buildWeekSelect() {
   var sel = document.getElementById('week-sel');
   sel.innerHTML = '';
 
-  var today = new Date();
-  var defaultWk = weeksList[0];
+  var today = new Date(); today.setHours(0,0,0,0);
+  // Default to last week in data (most relevant if all dates are past)
+  var defaultWk = weeksList[weeksList.length - 1];
 
   weeksList.forEach(function(w) {
     var o = document.createElement('option');
@@ -386,19 +388,27 @@ function buildWeekSelect() {
       ? fmtDate(weeksMap[w].min) + ' – ' + fmtDate(weeksMap[w].max)
       : '';
     o.textContent = 'Week ' + w + (range ? '  (' + range + ')' : '');
-
-    // Default: pick the week that contains today, or the nearest future week
-    if (weeksMap[w]) {
-      var mon = weeksMap[w].min;
-      var sat = weeksMap[w].max;
-      // extend sat to end of day
-      var satEnd = new Date(sat); satEnd.setHours(23,59,59);
-      if (today >= mon && today <= satEnd) defaultWk = w;
-      else if (today < mon && defaultWk === weeksList[0]) defaultWk = w;
-    }
-
     sel.appendChild(o);
+
+    if (weeksMap[w]) {
+      var mon = new Date(weeksMap[w].min); mon.setHours(0,0,0,0);
+      var sat = new Date(weeksMap[w].max); sat.setHours(23,59,59,999);
+      // Exact match: today is inside this week
+      if (today >= mon && today <= sat) defaultWk = w;
+    }
   });
+
+  // If no exact match, find nearest upcoming week; if all past, keep last week
+  if (document.getElementById('week-sel').value != defaultWk) {
+    var nearest = null, nearestDiff = Infinity;
+    weeksList.forEach(function(w) {
+      if (!weeksMap[w]) return;
+      var mon = new Date(weeksMap[w].min); mon.setHours(0,0,0,0);
+      var diff = mon - today;
+      if (diff >= 0 && diff < nearestDiff) { nearestDiff = diff; nearest = w; }
+    });
+    if (nearest !== null) defaultWk = nearest;
+  }
 
   sel.value = defaultWk;
 }
@@ -429,12 +439,12 @@ function renderWeekly() {
     }
     html += '<div class="day-card'+(isToday?' today-card':'')+'"><div class="day-head">'
           + '<span class="day-name">'+r.day+'</span>'
-          + '<span class="day-date">'+dateLabel+'</span>';
-    if (r.visit) html += '<span class="pill p-amber">'+esc(trunc(r.visit,36))+'</span>';
-    html += '</div><div class="day-slots">';
+          + '<span class="day-date">'+dateLabel+'</span>'
+          + '</div><div class="day-slots day-slots-4">';
     html += mkSlot('9:30 – 11:00 am',     r.morning, 'coral', 'Prep');
     html += mkSlot('11:00 am – 12:30 pm', r.online,  'blue',  'Class');
     html += mkSlot('1:30 – 3:00 pm',      r.seminar, 'teal',  'Visit');
+    html += mkSlot('3:30 – 6:00 pm',      r.visit,   'amber', 'Activity');
     html += '</div></div>';
   });
   document.getElementById('w-days').innerHTML = html || '<p style="color:var(--text3);font-size:13px;">No data for this week.</p>';
