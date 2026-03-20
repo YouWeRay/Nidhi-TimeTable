@@ -34,15 +34,15 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .header h1 em { font-style: italic; color: var(--accent); }
 .header-meta { font-size: 12px; color: var(--text3); margin-top: 5px; }
 
-/* Admin bar — hidden from Nidhi, toggle with Shift+U */
+/* Admin bar — hidden. Press Shift+U to show/hide */
 .admin-bar { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 11px 14px; margin-bottom: 1.5rem; align-items: center; gap: 10px; flex-wrap: wrap; }
 .admin-bar.visible { display: flex; }
 .admin-bar label { font-size: 13px; color: var(--text2); white-space: nowrap; font-weight: 500; }
-.admin-bar input { flex: 1; min-width: 220px; border: 1px solid var(--border); border-radius: 7px; padding: 7px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--bg); outline: none; transition: border 0.15s; }
+.admin-bar input { flex: 1; min-width: 220px; border: 1px solid var(--border); border-radius: 7px; padding: 7px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--bg); outline: none; }
 .admin-bar input:focus { border-color: var(--accent); }
-.btn { padding: 8px 18px; background: var(--accent); color: #fff; border: none; border-radius: 7px; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 500; white-space: nowrap; transition: opacity 0.15s; }
+.btn { padding: 8px 18px; background: var(--accent); color: #fff; border: none; border-radius: 7px; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 500; white-space: nowrap; }
 .btn:hover { opacity: 0.85; }
-.btn-sm { padding: 5px 12px; background: transparent; border: 1px solid var(--border); border-radius: 7px; font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--text2); cursor: pointer; transition: background 0.1s; }
+.btn-sm { padding: 5px 12px; background: transparent; border: 1px solid var(--border); border-radius: 7px; font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--text2); cursor: pointer; }
 .btn-sm:hover { background: var(--surface2); }
 #status { font-size: 12px; color: var(--text3); }
 #status.ok { color: var(--teal); }
@@ -61,12 +61,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 
 .week-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
 .week-row label { font-size: 13px; color: var(--text2); }
-.week-row select { border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--text); outline: none; cursor: pointer; min-width: 240px; }
+.week-row select { border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--text); outline: none; cursor: pointer; min-width: 220px; }
 
 .day-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; }
-.day-head { display: flex; align-items: center; gap: 8px; padding: 9px 15px; background: var(--surface2); border-bottom: 1px solid var(--border); }
+.day-head { display: flex; align-items: center; gap: 8px; padding: 9px 15px; background: var(--surface2); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
 .day-name { font-weight: 500; font-size: 14px; min-width: 88px; }
-.day-date { font-size: 12px; color: var(--text3); }
+.day-date { font-size: 12px; color: var(--text3); margin-right: auto; }
 .day-slots { display: grid; grid-template-columns: repeat(3, 1fr); }
 .slot { padding: 11px 14px; border-right: 1px solid var(--border); }
 .slot:last-child { border-right: none; }
@@ -78,8 +78,9 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .p-teal  { background: var(--teal-bg); color: var(--teal); }
 .p-amber { background: var(--amber-bg); color: var(--amber); }
 .day-off { padding: 11px 15px; font-size: 13px; color: var(--text3); font-style: italic; }
-.today-highlight { border-color: var(--accent) !important; }
-.today-highlight .day-head { background: var(--accent-bg); }
+.today-card { border-color: var(--accent) !important; }
+.today-card .day-head { background: var(--accent-bg); }
+.today-card .day-name { color: var(--accent); }
 
 .month-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
 .nav-btn { width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); cursor: pointer; font-size: 14px; color: var(--text2); display: flex; align-items: center; justify-content: center; }
@@ -109,7 +110,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .yr-d.r { background: var(--surface2); }
 .yr-d.e { background: transparent; }
 .yr-count { font-size: 11px; color: var(--text3); margin-top: 7px; }
-
 .loading { text-align: center; padding: 3rem; color: var(--text3); font-size: 14px; }
 </style>
 </head>
@@ -121,12 +121,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="header-meta" id="meta">Loading…</div>
   </div>
 
-  <!-- Admin bar: hidden from Nidhi. Press Shift+U to show/hide when you need to update the sheet URL -->
+  <!-- Press Shift+U to show this admin bar -->
   <div class="admin-bar" id="admin-bar">
     <label>Sheet URL:</label>
     <input type="text" id="sheet-url" placeholder="Paste Google Sheet CSV link…" />
     <button class="btn" onclick="loadSheet()">Load</button>
-    <button class="btn-sm" onclick="clearSaved()">Clear saved</button>
+    <button class="btn-sm" onclick="clearSaved()">Clear</button>
     <span id="status"></span>
   </div>
 
@@ -172,40 +172,40 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 </div>
 
 <script>
-// ── SHEET URL — update this if the Google Sheet link ever changes ──
+// ── Hardcoded sheet URL ──
 var SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-4253V0CGVPKAv0mbji4vXiIUJ4-DjG97p7gOBDi0nZ8Q1DqlQhRfPKhcoWYODw/pub?gid=437593195&single=true&output=csv';
 
-// Column positions (0-based): A=0 empty, B=1 Day, C=2 Morning, D=3 Online, E=4 Lunch, F=5 Seminar, G=6 Visit
-var COL = { day:1, morning:2, online:3, seminar:5, visit:6 };
+// Column positions (0-based):
+// A=0 Date, B=1 Day, C=2 Morning 9:30-11, D=3 Online 11-12:30, E=4 Lunch, F=5 Seminar 1:30-3, G=6 Visit 3:30-6
+var COL = { date:0, day:1, morning:2, online:3, seminar:5, visit:6 };
 
-var data = [];
-var weekMeta = {}; // weekNum -> { startDate, endDate } computed from real calendar
-var calMonth = new Date().getMonth();
-var calYear  = new Date().getFullYear();
-var MONTHS   = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var data      = [];  // parsed rows
+var weeksList = [];  // sorted unique week keys
+var calMonth  = new Date().getMonth();
+var calYear   = new Date().getFullYear();
+var MONTHS      = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 var MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 var DAY_ORDER   = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-var KEY = 'nidhi_tt_url_v3';
+var KEY = 'nidhi_tt_url_v4';
 
-// ── Admin panel toggle: Shift+U ──
+// ── Admin toggle: Shift+U ──
 document.addEventListener('keydown', function(e) {
   if (e.shiftKey && e.key === 'U') {
     var bar = document.getElementById('admin-bar');
     bar.classList.toggle('visible');
     if (bar.classList.contains('visible')) {
-      var saved = localStorage.getItem(KEY) || SHEET_URL;
-      document.getElementById('sheet-url').value = saved;
+      document.getElementById('sheet-url').value = localStorage.getItem(KEY) || SHEET_URL;
     }
   }
 });
 
 function clearSaved() {
   localStorage.removeItem(KEY);
-  document.getElementById('sheet-url').value = '';
-  setStatus('Cleared.', '');
+  document.getElementById('sheet-url').value = SHEET_URL;
+  setStatus('Cleared — using default URL.', '');
 }
 
-// ── Auto-load on page open ──
+// ── Boot ──
 window.onload = function() {
   var url = localStorage.getItem(KEY) || SHEET_URL;
   document.getElementById('sheet-url').value = url;
@@ -214,8 +214,7 @@ window.onload = function() {
 
 function loadSheet() {
   var url = document.getElementById('sheet-url').value.trim();
-  if (!url) return;
-  fetchAndRender(url);
+  if (url) fetchAndRender(url);
 }
 
 function fetchAndRender(url) {
@@ -225,12 +224,12 @@ function fetchAndRender(url) {
 
   fetch(url)
     .then(function(r) {
-      if (!r.ok) throw new Error('Could not fetch. Make sure the sheet is published to web.');
+      if (!r.ok) throw new Error('Cannot fetch. Check the sheet is published.');
       return r.text();
     })
     .then(function(csv) {
       data = parseCSV(csv);
-      if (!data.length) throw new Error('No rows found — check sheet has data from row 2.');
+      if (!data.length) throw new Error('No data rows found.');
       localStorage.setItem(KEY, url);
       setStatus('Loaded ' + data.length + ' entries · ' + new Date().toLocaleTimeString(), 'ok');
       document.getElementById('meta').textContent = 'Live from Google Sheets · last refreshed ' + new Date().toLocaleString();
@@ -243,16 +242,52 @@ function fetchAndRender(url) {
     })
     .catch(function(e) {
       document.getElementById('loading').style.display = 'none';
-      document.getElementById('meta').textContent = 'Could not load data — press Shift+U to update the sheet URL';
+      document.getElementById('meta').textContent = 'Could not load — press Shift+U to update the sheet URL';
       setStatus('Error: ' + e.message, 'err');
-      var bar = document.getElementById('admin-bar');
-      bar.classList.add('visible');
+      document.getElementById('admin-bar').classList.add('visible');
     });
 }
 
 function setStatus(msg, cls) {
   var el = document.getElementById('status');
   el.textContent = msg; el.className = cls;
+}
+
+// ── Parse date from "DD-MM-YYYY" or "D/M/YYYY" or Excel serial ──
+function parseDate(raw) {
+  if (!raw) return null;
+  raw = raw.trim();
+
+  // DD-MM-YYYY or DD/MM/YYYY
+  var m = raw.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);
+  if (m) return new Date(parseInt(m[3]), parseInt(m[2])-1, parseInt(m[1]));
+
+  // YYYY-MM-DD
+  var m2 = raw.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
+  if (m2) return new Date(parseInt(m2[1]), parseInt(m2[2])-1, parseInt(m2[3]));
+
+  // Excel serial number (days since 1900-01-01, with Lotus 1-2-3 leap year bug)
+  if (/^\d+$/.test(raw)) {
+    var serial = parseInt(raw);
+    if (serial > 1000) {
+      var excelEpoch = new Date(1899, 11, 30);
+      var d = new Date(excelEpoch.getTime() + serial * 86400000);
+      return d;
+    }
+  }
+
+  // Fallback: try native parsing
+  var d = new Date(raw);
+  return isNaN(d.getTime()) ? null : d;
+}
+
+function fmtDate(d) {
+  if (!d) return '';
+  return d.getDate() + ' ' + MONTH_SHORT[d.getMonth()];
+}
+
+function isSameDay(a, b) {
+  return a && b && a.getDate()===b.getDate() && a.getMonth()===b.getMonth() && a.getFullYear()===b.getFullYear();
 }
 
 // ── CSV Parser ──
@@ -272,7 +307,7 @@ function parseCSV(text) {
   var lines = text.split(/\r?\n/).map(function(l){ return l.trim(); });
   var rows  = lines.filter(function(l){ return l.length > 0; }).map(splitLine);
 
-  // Find header row: col[1] = "Day"
+  // Find header row: contains "Day" in col 1
   var dataStart = 2;
   for (var i = 0; i < Math.min(rows.length, 5); i++) {
     if ((rows[i][COL.day] || '').toLowerCase().trim() === 'day') {
@@ -286,16 +321,22 @@ function parseCSV(text) {
 
   for (var i = dataStart; i < rows.length; i++) {
     var row    = rows[i];
-    var dayRaw = (row[COL.day] || '').trim();
-    var dayLow = dayRaw.toLowerCase();
+    var dateRaw = (row[COL.date] || '').trim();
+    var dayRaw  = (row[COL.day]  || '').trim();
+    var dayLow  = dayRaw.toLowerCase();
     if (!dayLow || dayLow === 'day') continue;
 
     var rowText     = row.join('|').toLowerCase();
     var isSunday    = dayLow === 'sunday';
     var isWeeklyOff = rowText.indexOf('weekly off') !== -1;
+    var parsedDate  = parseDate(dateRaw);
 
     if (isSunday || isWeeklyOff) {
-      result.push({ week: weekNum, day: 'Sunday', off: true, morning:'', online:'', seminar:'', visit:'' });
+      result.push({
+        week: weekNum, day: 'Sunday', off: true,
+        date: parsedDate,
+        morning:'', online:'', seminar:'', visit:''
+      });
       weekNum++;
       prevIdx = -1;
       continue;
@@ -310,6 +351,7 @@ function parseCSV(text) {
       week:    weekNum,
       day:     dayCaped,
       off:     false,
+      date:    parsedDate,
       morning: (row[COL.morning] || '').trim(),
       online:  (row[COL.online]  || '').trim(),
       seminar: (row[COL.seminar] || '').trim(),
@@ -319,77 +361,46 @@ function parseCSV(text) {
   return result;
 }
 
-// ── Compute date range label for each week ──
-// Strategy: find the Monday of the current real-world week,
-// then assign Week 1 = first week in data, counting forward.
-// We map week numbers to real Mon–Sat date ranges starting from today's week.
-function getWeekDateRange(weekNum, allWeeks) {
-  // Find the earliest week number in data
-  var minWeek = Math.min.apply(null, allWeeks);
-  // Get this week's Monday (today's real date)
-  var today = new Date();
-  var dow = today.getDay(); // 0=Sun
-  var daysSinceMon = dow === 0 ? 6 : dow - 1;
-  var thisMonday = new Date(today);
-  thisMonday.setDate(today.getDate() - daysSinceMon);
-
-  // Find current week number in data (the week that contains today)
-  var currentWeekNum = getCurrentWeekNum();
-  var weekOffset = weekNum - currentWeekNum;
-
-  var weekMonday = new Date(thisMonday);
-  weekMonday.setDate(thisMonday.getDate() + weekOffset * 7);
-  var weekSaturday = new Date(weekMonday);
-  weekSaturday.setDate(weekMonday.getDate() + 5);
-
-  var fmt = function(d) {
-    return d.getDate() + ' ' + MONTH_SHORT[d.getMonth()];
-  };
-  return fmt(weekMonday) + ' – ' + fmt(weekSaturday);
-}
-
-function getCurrentWeekNum() {
-  // Which week number in our data corresponds to today?
-  // We figure this out by counting weeks from the start of data.
-  // The timetable is a repeating cycle — we use modulo to find which cycle we're in.
-  var today = new Date();
-  var dow = today.getDay() === 0 ? 7 : today.getDay(); // Mon=1 … Sun=7
-  var todayDayName = DAY_ORDER[dow - 1]; // e.g. "Thursday"
-
-  var weeks = [];
-  data.forEach(function(r){ if (weeks.indexOf(r.week) === -1) weeks.push(r.week); });
-  weeks.sort(function(a,b){ return a-b; });
-  var totalWeeks = weeks.length;
-  if (!totalWeeks) return 1;
-
-  // Use ISO week number to pick cycle position
-  var startOfYear = new Date(today.getFullYear(), 0, 1);
-  var isoWeek = Math.ceil(((today - startOfYear) / 86400000 + startOfYear.getDay() + 1) / 7);
-  // Map to our weeks with modulo
-  var idx = (isoWeek - 1) % totalWeeks;
-  return weeks[idx] || weeks[0];
-}
-
-// ── Week Select ──
+// ── Week select: label with real dates from sheet ──
 function buildWeekSelect() {
-  var weeks = [];
-  data.forEach(function(r){ if (weeks.indexOf(r.week)===-1) weeks.push(r.week); });
-  weeks.sort(function(a,b){ return a-b; });
+  var weeksMap = {}; // weekNum -> {min, max} date
+  data.forEach(function(r) {
+    if (!r.date || r.off) return;
+    if (!weeksMap[r.week]) weeksMap[r.week] = { min: r.date, max: r.date };
+    if (r.date < weeksMap[r.week].min) weeksMap[r.week].min = r.date;
+    if (r.date > weeksMap[r.week].max) weeksMap[r.week].max = r.date;
+  });
+
+  weeksList = Object.keys(weeksMap).map(Number).sort(function(a,b){ return a-b; });
 
   var sel = document.getElementById('week-sel');
   sel.innerHTML = '';
-  weeks.forEach(function(w){
+
+  var today = new Date();
+  var defaultWk = weeksList[0];
+
+  weeksList.forEach(function(w) {
     var o = document.createElement('option');
     o.value = w;
-    var range = getWeekDateRange(w, weeks);
-    o.textContent = 'Week ' + w + '  (' + range + ')';
+    var range = weeksMap[w]
+      ? fmtDate(weeksMap[w].min) + ' – ' + fmtDate(weeksMap[w].max)
+      : '';
+    o.textContent = 'Week ' + w + (range ? '  (' + range + ')' : '');
+
+    // Default: pick the week that contains today, or the nearest future week
+    if (weeksMap[w]) {
+      var mon = weeksMap[w].min;
+      var sat = weeksMap[w].max;
+      // extend sat to end of day
+      var satEnd = new Date(sat); satEnd.setHours(23,59,59);
+      if (today >= mon && today <= satEnd) defaultWk = w;
+      else if (today < mon && defaultWk === weeksList[0]) defaultWk = w;
+    }
+
     sel.appendChild(o);
   });
 
-  // Default to current week
-  var currentWk = getCurrentWeekNum();
-  sel.value = currentWk;
-  if (!sel.value) sel.selectedIndex = 0; // fallback
+  sel.value = defaultWk;
 }
 
 // ── Weekly ──
@@ -398,44 +409,27 @@ function renderWeekly() {
   var rows = data.filter(function(r){ return r.week === wk; });
   rows.sort(function(a,b){ return DAY_ORDER.indexOf(a.day) - DAY_ORDER.indexOf(b.day); });
 
+  var today   = new Date();
   var working = rows.filter(function(r){ return !r.off; }).length;
   var offs    = rows.filter(function(r){ return r.off; }).length;
   document.getElementById('w-stats').innerHTML =
     mkStat(working,'Active days') + mkStat(offs,'Days off') + mkStat(working*3,'Sessions this week');
 
-  // Get Monday of the selected week to compute per-day dates
-  var today = new Date();
-  var dow = today.getDay() === 0 ? 7 : today.getDay();
-  var daysSinceMon = dow - 1;
-  var thisMonday = new Date(today);
-  thisMonday.setDate(today.getDate() - daysSinceMon);
-
-  var allWeeks = [];
-  data.forEach(function(r){ if (allWeeks.indexOf(r.week)===-1) allWeeks.push(r.week); });
-  var currentWk = getCurrentWeekNum();
-  var weekOffset = wk - currentWk;
-  var weekMonday = new Date(thisMonday);
-  weekMonday.setDate(thisMonday.getDate() + weekOffset * 7);
-
   var html = '';
   rows.forEach(function(r) {
-    // Compute actual date for this day
-    var dayIdx = DAY_ORDER.indexOf(r.day); // Mon=0 … Sun=6
-    var dayDate = new Date(weekMonday);
-    dayDate.setDate(weekMonday.getDate() + dayIdx);
-    var dateStr = dayDate.getDate() + ' ' + MONTH_SHORT[dayDate.getMonth()];
-    var isToday = dayDate.toDateString() === today.toDateString();
+    var dateLabel = r.date ? fmtDate(r.date) + ' ' + r.date.getFullYear() : '';
+    var isToday   = isSameDay(r.date, today);
 
     if (r.off) {
-      html += '<div class="day-card'+(isToday?' today-highlight':'')+'"><div class="day-head">'
+      html += '<div class="day-card'+(isToday?' today-card':'')+'"><div class="day-head">'
             + '<span class="day-name">'+r.day+'</span>'
-            + '<span class="day-date">'+dateStr+'</span>'
+            + '<span class="day-date">'+dateLabel+'</span>'
             + '</div><div class="day-off">Weekly off</div></div>';
       return;
     }
-    html += '<div class="day-card'+(isToday?' today-highlight':'')+'"><div class="day-head">'
+    html += '<div class="day-card'+(isToday?' today-card':'')+'"><div class="day-head">'
           + '<span class="day-name">'+r.day+'</span>'
-          + '<span class="day-date">'+dateStr+'</span>';
+          + '<span class="day-date">'+dateLabel+'</span>';
     if (r.visit) html += '<span class="pill p-amber">'+esc(trunc(r.visit,36))+'</span>';
     html += '</div><div class="day-slots">';
     html += mkSlot('9:30 – 11:00 am',     r.morning, 'coral', 'Prep');
