@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nidhi Time Table</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F6F4EF;
+  --surface: #FFFFFF;
+  --surface2: #EEEAE2;
+  --border: #DDD9CF;
+  --text: #1C1916;
+  --text2: #6A6358;
+  --text3: #A09880;
+  --accent: #2A5C8F;
+  --accent-bg: #EAF1F9;
+  --teal: #1A7A62;
+  --teal-bg: #E3F3EE;
+  --coral: #BF4E28;
+  --coral-bg: #FAF0EB;
+  --amber: #A86B10;
+  --amber-bg: #FBF3E2;
+  --radius: 10px;
+  --radius-lg: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+.page { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+
+.header { margin-bottom: 2rem; }
+.header h1 { font-family: 'DM Serif Display', serif; font-size: 2.2rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; }
+.header h1 em { font-style: italic; color: var(--accent); }
+.header-meta { font-size: 12px; color: var(--text3); margin-top: 5px; }
+
+.setup-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem 1.75rem; margin-bottom: 1.5rem; }
+.setup-box h3 { font-family: 'DM Serif Display', serif; font-size: 1.05rem; font-weight: 400; margin-bottom: 1rem; }
+.step { display: flex; gap: 11px; margin-bottom: 0.7rem; align-items: flex-start; }
+.step-n { width: 20px; height: 20px; min-width: 20px; background: var(--accent); color: #fff; border-radius: 50%; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+.step p { font-size: 13px; color: var(--text2); line-height: 1.55; }
+.step code { background: var(--surface2); padding: 1px 6px; border-radius: 4px; font-size: 12px; color: var(--text); font-family: monospace; }
+
+.url-bar { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 11px 14px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.url-bar label { font-size: 13px; color: var(--text2); white-space: nowrap; font-weight: 500; }
+.url-bar input { flex: 1; min-width: 220px; border: 1px solid var(--border); border-radius: 7px; padding: 7px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--bg); outline: none; transition: border 0.15s; }
+.url-bar input:focus { border-color: var(--accent); }
+.btn { padding: 8px 18px; background: var(--accent); color: #fff; border: none; border-radius: 7px; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; font-weight: 500; white-space: nowrap; transition: opacity 0.15s; }
+.btn:hover { opacity: 0.85; }
+.btn-sm { padding: 5px 12px; background: transparent; border: 1px solid var(--border); border-radius: 7px; font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--text2); cursor: pointer; transition: background 0.1s; }
+.btn-sm:hover { background: var(--surface2); }
+#status { font-size: 12px; color: var(--text3); }
+#status.ok { color: var(--teal); }
+#status.err { color: var(--coral); }
+
+.tabs { display: flex; gap: 3px; margin-bottom: 1.5rem; background: var(--surface2); border-radius: var(--radius); padding: 4px; width: fit-content; }
+.tab { padding: 7px 22px; border-radius: 8px; border: none; background: transparent; cursor: pointer; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text2); transition: all 0.15s; }
+.tab.active { background: var(--surface); color: var(--text); font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+.view { display: none; }
+.view.active { display: block; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; }
+.stat-val { font-size: 24px; font-family: 'DM Serif Display', serif; color: var(--text); }
+.stat-lbl { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+.week-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+.week-row label { font-size: 13px; color: var(--text2); }
+.week-row select { border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--text); outline: none; cursor: pointer; }
+
+.day-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; }
+.day-head { display: flex; align-items: center; gap: 8px; padding: 9px 15px; background: var(--surface2); border-bottom: 1px solid var(--border); }
+.day-name { font-weight: 500; font-size: 14px; min-width: 88px; }
+.day-slots { display: grid; grid-template-columns: repeat(3, 1fr); }
+.slot { padding: 11px 14px; border-right: 1px solid var(--border); }
+.slot:last-child { border-right: none; }
+.slot-time { font-size: 10px; color: var(--text3); letter-spacing: 0.03em; margin-bottom: 4px; text-transform: uppercase; }
+.slot-text { font-size: 13px; color: var(--text); line-height: 1.45; }
+.pill { display: inline-block; margin-top: 5px; padding: 2px 9px; border-radius: 99px; font-size: 11px; font-weight: 500; }
+.p-coral { background: var(--coral-bg); color: var(--coral); }
+.p-blue  { background: var(--accent-bg); color: var(--accent); }
+.p-teal  { background: var(--teal-bg); color: var(--teal); }
+.p-amber { background: var(--amber-bg); color: var(--amber); }
+.day-off { padding: 11px 15px; font-size: 13px; color: var(--text3); font-style: italic; }
+
+.month-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+.nav-btn { width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); cursor: pointer; font-size: 14px; color: var(--text2); display: flex; align-items: center; justify-content: center; }
+.nav-btn:hover { background: var(--surface2); }
+.month-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; }
+.dow-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 4px; }
+.dow-row div { text-align: center; font-size: 11px; color: var(--text3); padding: 3px 0; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-cell { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 7px; min-height: 62px; }
+.cal-cell.off { background: var(--surface2); opacity: 0.55; }
+.cal-cell.empty { background: transparent; border-color: transparent; min-height: 0; }
+.cal-cell.today { border-color: var(--accent); }
+.cal-num { font-size: 12px; color: var(--text2); font-weight: 500; margin-bottom: 4px; }
+.cal-cell.today .cal-num { color: var(--accent); font-weight: 600; }
+.cal-pip { font-size: 10px; line-height: 1.4; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
+.leg { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text2); }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+.yr-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 680px) { .yr-grid { grid-template-columns: repeat(2, 1fr); } }
+.yr-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+.yr-mth { font-size: 12px; font-weight: 500; margin-bottom: 8px; color: var(--text); }
+.yr-mini { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.yr-d { height: 10px; border-radius: 2px; }
+.yr-d.w { background: var(--accent); opacity: 0.65; }
+.yr-d.r { background: var(--surface2); }
+.yr-d.e { background: transparent; }
+.yr-count { font-size: 11px; color: var(--text3); margin-top: 7px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <h1>Nidhi <em>Time Table</em></h1>
+    <div class="header-meta" id="meta">Connect your Google Sheet below to load live data</div>
+  </div>
+
+  <div class="url-bar">
+    <label>Sheet URL:</label>
+    <input type="text" id="sheet-url" placeholder="Paste your published Google Sheet CSV link…" />
+    <button class="btn" onclick="loadSheet()">Load</button>
+    <button class="btn-sm" onclick="clearSaved()">Clear saved link</button>
+    <span id="status"></span>
+  </div>
+
+  <div class="setup-box" id="setup">
+    <h3>One-time setup — takes 2 minutes</h3>
+    <div class="step"><div class="step-n">1</div><p>Open the timetable in <strong>Google Sheets</strong>.</p></div>
+    <div class="step"><div class="step-n">2</div><p>Click <strong>File → Share → Publish to web</strong>.</p></div>
+    <div class="step"><div class="step-n">3</div><p>First dropdown: pick your sheet tab (e.g. <code>Sheet1</code>). Second dropdown: pick <code>Comma-separated values (.csv)</code>.</p></div>
+    <div class="step"><div class="step-n">4</div><p>Click <strong>Publish</strong> → copy the link. <em>You can also just copy the normal sheet URL from your browser address bar — both work.</em></p></div>
+    <div class="step"><div class="step-n">5</div><p>Paste it above and click <strong>Load</strong>. The link is saved in this browser automatically.</p></div>
+    <div class="step"><div class="step-n">6</div><p>After updating the sheet, Nidhi just <strong>refreshes this page</strong>. No code needed ever.</p></div>
+  </div>
+
+  <div id="dash" style="display:none">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('weekly',this)">Weekly</button>
+      <button class="tab" onclick="switchTab('monthly',this)">Monthly</button>
+      <button class="tab" onclick="switchTab('yearly',this)">Yearly</button>
+    </div>
+
+    <div id="view-weekly" class="view active">
+      <div class="stats" id="w-stats"></div>
+      <div class="week-row">
+        <label>Show week:</label>
+        <select id="week-sel" onchange="renderWeekly()"></select>
+      </div>
+      <div id="w-days"></div>
+    </div>
+
+    <div id="view-monthly" class="view">
+      <div class="month-nav">
+        <button class="nav-btn" onclick="shiftMonth(-1)">&#8592;</button>
+        <span class="month-title" id="m-title"></span>
+        <button class="nav-btn" onclick="shiftMonth(1)">&#8594;</button>
+      </div>
+      <div class="dow-row"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div>
+      <div class="cal-grid" id="cal"></div>
+      <div class="legend">
+        <div class="leg"><div class="leg-dot" style="background:var(--coral)"></div>Paper Prep</div>
+        <div class="leg"><div class="leg-dot" style="background:var(--accent)"></div>Online Class</div>
+        <div class="leg"><div class="leg-dot" style="background:var(--teal)"></div>Seminar / Visit</div>
+        <div class="leg"><div class="leg-dot" style="background:var(--surface2);border:1px solid var(--border)"></div>Weekly Off</div>
+      </div>
+    </div>
+
+    <div id="view-yearly" class="view">
+      <div class="stats" id="y-stats"></div>
+      <div class="yr-grid" id="yr"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Column positions (0-based) matching Nidhi's exact sheet:
+// Col A(0)=empty, B(1)=Day, C(2)=9:30-11 Morning, D(3)=11-12:30 Online Class,
+// E(4)=12:30-1 Lunch, F(5)=1:30-3 Seminar/Location, G(6)=3:30-6 Visit/Activity
+var COL = { day:1, morning:2, online:3, seminar:5, visit:6 };
+
+var data = [];
+var calMonth = new Date().getMonth();
+var calYear  = new Date().getFullYear();
+var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var DAY_ORDER = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+var KEY = 'nidhi_tt_url_v2';
+
+window.onload = function() {
+  var saved = localStorage.getItem(KEY);
+  if (saved) { document.getElementById('sheet-url').value = saved; loadSheet(); }
+};
+
+function clearSaved() {
+  localStorage.removeItem(KEY);
+  document.getElementById('sheet-url').value = '';
+  setStatus('Link cleared.', '');
+}
+
+function toExportUrl(url) {
+  // Already a published CSV link (/pub?...output=csv) — use directly, no conversion
+  if (url.indexOf('/pub') !== -1 && url.indexOf('output=csv') !== -1) return url;
+  // Already a direct export URL — use as-is
+  if (url.indexOf('output=csv') !== -1 || url.indexOf('/export') !== -1) return url;
+  // Regular sheet edit URL — convert to export
+  var idMatch  = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+  var gidMatch = url.match(/[?&]gid=([0-9]+)/);
+  if (idMatch) {
+    var id  = idMatch[1];
+    var gid = gidMatch ? gidMatch[1] : '0';
+    return 'https://docs.google.com/spreadsheets/d/' + id + '/export?format=csv&gid=' + gid;
+  }
+  return url;
+}
+
+function loadSheet() {
+  var rawUrl = document.getElementById('sheet-url').value.trim();
+  if (!rawUrl) return;
+  var url = toExportUrl(rawUrl);
+  setStatus('Loading…', '');
+  fetch(url)
+    .then(function(r) {
+      if (!r.ok) throw new Error('Could not fetch — make sure the sheet is published to web (File → Share → Publish to web).');
+      return r.text();
+    })
+    .then(function(csv) {
+      data = parseCSV(csv);
+      if (!data.length) throw new Error('No rows found. Make sure the sheet has data starting from row 2.');
+      localStorage.setItem(KEY, rawUrl);
+      setStatus('Loaded ' + data.length + ' entries · ' + new Date().toLocaleTimeString(), 'ok');
+      document.getElementById('meta').textContent = 'Live from Google Sheets · last refreshed ' + new Date().toLocaleString();
+      document.getElementById('setup').style.display = 'none';
+      document.getElementById('dash').style.display = 'block';
+      buildWeekSelect();
+      renderWeekly();
+      renderMonthly();
+      renderYearly();
+    })
+    .catch(function(e) { setStatus('Error: ' + e.message, 'err'); });
+}
+
+function setStatus(msg, cls) {
+  var el = document.getElementById('status');
+  el.textContent = msg; el.className = cls;
+}
+
+// ── CSV Parser (exact column positions) ──
+function splitLine(line) {
+  var res = [], cur = '', inQ = false;
+  for (var i = 0; i < line.length; i++) {
+    var c = line[i];
+    if (c === '"') { inQ = !inQ; }
+    else if (c === ',' && !inQ) { res.push(cur.trim()); cur = ''; }
+    else { cur += c; }
+  }
+  res.push(cur.trim());
+  return res;
+}
+
+function parseCSV(text) {
+  var lines = text.split(/\r?\n/).map(function(l){ return l.trim(); });
+  var rows  = lines.filter(function(l){ return l.length > 0; }).map(splitLine);
+
+  // Row 0 = title ("Nidhi Time Table"), Row 1 = column headers, data starts Row 2
+  // Find the header row: col[1] should equal "Day"
+  var dataStart = 2; // default
+  for (var i = 0; i < Math.min(rows.length, 5); i++) {
+    if ((rows[i][COL.day] || '').toLowerCase().trim() === 'day') {
+      dataStart = i + 1;
+      break;
+    }
+  }
+
+  var result  = [];
+  var weekNum = 1;
+  var prevIdx = -1;
+
+  for (var i = dataStart; i < rows.length; i++) {
+    var row    = rows[i];
+    var dayRaw = (row[COL.day] || '').trim();
+    var dayLow = dayRaw.toLowerCase();
+    if (!dayLow || dayLow === 'day') continue;
+
+    // Sunday or "WEEKLY OFF" row
+    var rowText = row.join('|').toLowerCase();
+    var isSunday = dayLow === 'sunday';
+    var isWeeklyOff = rowText.indexOf('weekly off') !== -1;
+
+    if (isSunday || isWeeklyOff) {
+      result.push({ week: weekNum, day: 'Sunday', off: true, morning:'', online:'', seminar:'', visit:'' });
+      weekNum++;
+      prevIdx = -1;
+      continue;
+    }
+
+    var dayCaped = dayLow.charAt(0).toUpperCase() + dayLow.slice(1);
+    var thisIdx  = DAY_ORDER.indexOf(dayCaped);
+
+    // New week if Monday comes after a Saturday
+    if (thisIdx === 0 && prevIdx >= 5) weekNum++;
+    prevIdx = thisIdx;
+
+    result.push({
+      week:    weekNum,
+      day:     dayCaped,
+      off:     false,
+      morning: (row[COL.morning] || '').trim(),
+      online:  (row[COL.online]  || '').trim(),
+      seminar: (row[COL.seminar] || '').trim(),
+      visit:   (row[COL.visit]   || '').trim()
+    });
+  }
+  return result;
+}
+
+// ── Helpers ──
+function esc(s)      { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function trunc(s, n) { return s && s.length > n ? s.slice(0, n-1) + '…' : (s||''); }
+function mkStat(v,l) { return '<div class="stat"><div class="stat-val">'+v+'</div><div class="stat-lbl">'+l+'</div></div>'; }
+
+// ── Week Select ──
+function buildWeekSelect() {
+  var weeks = [];
+  data.forEach(function(r){ if (weeks.indexOf(r.week)===-1) weeks.push(r.week); });
+  weeks.sort(function(a,b){ return a-b; });
+  var sel = document.getElementById('week-sel');
+  sel.innerHTML = '';
+  weeks.forEach(function(w){
+    var o = document.createElement('option');
+    o.value = w; o.textContent = 'Week ' + w;
+    sel.appendChild(o);
+  });
+}
+
+// ── Weekly ──
+function renderWeekly() {
+  var wk   = parseInt(document.getElementById('week-sel').value);
+  var rows = data.filter(function(r){ return r.week === wk; });
+  rows.sort(function(a,b){ return DAY_ORDER.indexOf(a.day) - DAY_ORDER.indexOf(b.day); });
+
+  var working = rows.filter(function(r){ return !r.off; }).length;
+  var offs    = rows.filter(function(r){ return r.off; }).length;
+  document.getElementById('w-stats').innerHTML =
+    mkStat(working,'Active days') + mkStat(offs,'Days off') + mkStat(working*3,'Sessions this week');
+
+  var html = '';
+  rows.forEach(function(r) {
+    if (r.off) {
+      html += '<div class="day-card"><div class="day-head"><span class="day-name">'+r.day+'</span></div>'
+            + '<div class="day-off">Weekly off</div></div>';
+      return;
+    }
+    html += '<div class="day-card"><div class="day-head"><span class="day-name">'+r.day+'</span>';
+    if (r.visit) html += '<span class="pill p-amber">'+esc(trunc(r.visit,36))+'</span>';
+    html += '</div><div class="day-slots">';
+    html += mkSlot('9:30 – 11:00 am',     r.morning, 'coral', 'Prep');
+    html += mkSlot('11:00 am – 12:30 pm', r.online,  'blue',  'Class');
+    html += mkSlot('1:30 – 3:00 pm',      r.seminar, 'teal',  'Visit');
+    html += '</div></div>';
+  });
+  document.getElementById('w-days').innerHTML = html || '<p style="color:var(--text3);font-size:13px;">No data for this week.</p>';
+}
+
+function mkSlot(time, content, color, label) {
+  var isEmpty = !content || content.toLowerCase() === 'lunch';
+  return '<div class="slot">'
+    + '<div class="slot-time">'+time+'</div>'
+    + '<div class="slot-text">'+(isEmpty ? '<span style="color:var(--text3)">–</span>' : esc(content))+'</div>'
+    + (!isEmpty ? '<span class="pill p-'+color+'">'+label+'</span>' : '')
+    + '</div>';
+}
+
+// ── Monthly ──
+function shiftMonth(d) {
+  calMonth += d;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0)  { calMonth = 11; calYear--; }
+  renderMonthly();
+}
+
+function renderMonthly() {
+  document.getElementById('m-title').textContent = MONTHS[calMonth] + ' ' + calYear;
+  var first  = new Date(calYear, calMonth, 1).getDay();
+  var daysIn = new Date(calYear, calMonth+1, 0).getDate();
+  var today  = new Date();
+  var html   = '';
+
+  for (var i = 0; i < first; i++) html += '<div class="cal-cell empty"></div>';
+  for (var d = 1; d <= daysIn; d++) {
+    var dow     = new Date(calYear, calMonth, d).getDay();
+    var isOff   = dow === 0;
+    var isToday = d===today.getDate() && calMonth===today.getMonth() && calYear===today.getFullYear();
+    html += '<div class="cal-cell'+(isOff?' off':'')+(isToday?' today':'')+'">';
+    html += '<div class="cal-num">'+d+'</div>';
+    if (!isOff) {
+      html += '<div class="cal-pip" style="color:var(--coral)">&#9679; Prep</div>';
+      html += '<div class="cal-pip" style="color:var(--accent)">&#9679; Class</div>';
+      html += '<div class="cal-pip" style="color:var(--teal)">&#9679; Visit</div>';
+    }
+    html += '</div>';
+  }
+  document.getElementById('cal').innerHTML = html;
+}
+
+// ── Yearly ──
+function renderYearly() {
+  var y = new Date().getFullYear();
+  var totalWork = 0;
+  var html = '';
+  for (var m = 0; m < 12; m++) {
+    var daysIn = new Date(y, m+1, 0).getDate();
+    var firstD = new Date(y, m, 1).getDay();
+    var work   = 0;
+    for (var d = 1; d <= daysIn; d++) { if (new Date(y,m,d).getDay()!==0) work++; }
+    totalWork += work;
+    var mini = '';
+    for (var i = 0; i < firstD; i++) mini += '<div class="yr-d e"></div>';
+    for (var d = 1; d <= daysIn; d++) mini += '<div class="yr-d '+(new Date(y,m,d).getDay()===0?'r':'w')+'"></div>';
+    html += '<div class="yr-block"><div class="yr-mth">'+MONTHS[m].slice(0,3)+' '+y+'</div>'
+          + '<div class="yr-mini">'+mini+'</div>'
+          + '<div class="yr-count">'+work+' working days</div></div>';
+  }
+  document.getElementById('yr').innerHTML = html;
+  document.getElementById('y-stats').innerHTML =
+    mkStat(totalWork,'Working days this year') + mkStat(52,'Sundays off') + mkStat(totalWork*3,'Total sessions');
+}
+
+// ── Tabs ──
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  el.classList.add('active');
+  document.getElementById('view-'+name).classList.add('active');
+}
+</script>
+</body>
+</html>
