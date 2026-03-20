@@ -25,7 +25,7 @@ Connect any Google Sheet timetable and get an instant dashboard. Every time the 
 Your sheet must follow this structure:
 
 ```
-Row 1:  Title    →  e.g. "Nidhi Time Table"  (becomes the dashboard heading)
+Row 1:  Title    →  e.g. "Rishabh's Time Table"  (becomes the dashboard heading)
 Row 2:  Headers  →  Date | Day | 9:30 AM – 11:00 AM | 11:00 AM – 12:30 PM | ...
 Row 3+: Data     →  16-02-2026 | Monday | Paper Prep | Online Class | ...
 ```
