@@ -632,11 +632,6 @@ function renderMonthly() {
         matchRow.events.slice(0,3).forEach(function(ev) {
           html+='<div class="cal-ev" style="background:'+ev.color.bg+';color:'+ev.color.text+'">'+esc(ev.value.slice(0,20))+'</div>';
         });
-      } else if (!matchRow) {
-        // No sheet data for this day — show generic dots
-        timeSlots.slice(0,3).forEach(function(s,i) {
-          html+='<div class="cal-ev" style="background:'+s.color.bg+';color:'+s.color.text+'">'+esc(s.label.slice(0,18))+'</div>';
-        });
       }
     }
     html+='</div>';
