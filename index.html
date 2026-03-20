@@ -22,19 +22,26 @@
   --coral-bg: #FAF0EB;
   --amber: #A86B10;
   --amber-bg: #FBF3E2;
+  --purple: #5B3FA6;
+  --purple-bg: #EEEBF9;
+  --pink: #9C2A6A;
+  --pink-bg: #F9EAF3;
   --radius: 10px;
   --radius-lg: 14px;
+  --hour-h: 56px; /* height of one hour block */
+  --time-col: 52px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-.page { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+.page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
 
+/* Header */
 .header { margin-bottom: 2rem; }
 .header h1 { font-family: 'DM Serif Display', serif; font-size: 2.2rem; font-weight: 400; letter-spacing: -0.02em; line-height: 1.1; }
 .header h1 em { font-style: italic; color: var(--accent); }
 .header-meta { font-size: 12px; color: var(--text3); margin-top: 5px; }
 
-/* Admin bar — hidden. Press Shift+U to show/hide */
+/* Admin bar */
 .admin-bar { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 11px 14px; margin-bottom: 1.5rem; align-items: center; gap: 10px; flex-wrap: wrap; }
 .admin-bar.visible { display: flex; }
 .admin-bar label { font-size: 13px; color: var(--text2); white-space: nowrap; font-weight: 500; }
@@ -48,41 +55,82 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 #status.ok { color: var(--teal); }
 #status.err { color: var(--coral); }
 
+/* Tabs */
 .tabs { display: flex; gap: 3px; margin-bottom: 1.5rem; background: var(--surface2); border-radius: var(--radius); padding: 4px; width: fit-content; }
 .tab { padding: 7px 22px; border-radius: 8px; border: none; background: transparent; cursor: pointer; font-size: 14px; font-family: 'DM Sans', sans-serif; color: var(--text2); transition: all 0.15s; }
 .tab.active { background: var(--surface); color: var(--text); font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
 .view { display: none; }
 .view.active { display: block; }
 
+/* Stats */
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
 .stat { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; }
 .stat-val { font-size: 24px; font-family: 'DM Serif Display', serif; color: var(--text); }
 .stat-lbl { font-size: 12px; color: var(--text3); margin-top: 2px; }
 
-.week-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+/* Week selector */
+.week-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; }
 .week-row label { font-size: 13px; color: var(--text2); }
 .week-row select { border: 1px solid var(--border); border-radius: 7px; padding: 6px 10px; font-size: 13px; font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--text); outline: none; cursor: pointer; min-width: 220px; }
 
-.day-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 10px; overflow: hidden; }
-.day-head { display: flex; align-items: center; gap: 8px; padding: 9px 15px; background: var(--surface2); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
-.day-name { font-weight: 500; font-size: 14px; min-width: 88px; }
-.day-date { font-size: 12px; color: var(--text3); margin-right: auto; }
-.day-slots { display: grid; grid-template-columns: repeat(3, 1fr); }
-.day-slots-4 { grid-template-columns: repeat(4, 1fr); }
-.slot { padding: 11px 14px; border-right: 1px solid var(--border); }
-.slot:last-child { border-right: none; }
-.slot-time { font-size: 10px; color: var(--text3); letter-spacing: 0.03em; margin-bottom: 4px; text-transform: uppercase; }
-.slot-text { font-size: 13px; color: var(--text); line-height: 1.45; }
-.pill { display: inline-block; margin-top: 5px; padding: 2px 9px; border-radius: 99px; font-size: 11px; font-weight: 500; }
-.p-coral { background: var(--coral-bg); color: var(--coral); }
-.p-blue  { background: var(--accent-bg); color: var(--accent); }
-.p-teal  { background: var(--teal-bg); color: var(--teal); }
-.p-amber { background: var(--amber-bg); color: var(--amber); }
-.day-off { padding: 11px 15px; font-size: 13px; color: var(--text3); font-style: italic; }
-.today-card { border-color: var(--accent) !important; }
-.today-card .day-head { background: var(--accent-bg); }
-.today-card .day-name { color: var(--accent); }
+/* ── TIMELINE (Google Calendar style) ── */
+.timeline-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 16px; }
 
+/* Day header row */
+.tl-day-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px 10px calc(var(--time-col) + 14px); background: var(--surface2); border-bottom: 1px solid var(--border); }
+.tl-day-head.today-head { background: var(--accent-bg); }
+.tl-day-name { font-weight: 500; font-size: 14px; }
+.tl-day-name.today-name { color: var(--accent); }
+.tl-day-date { font-size: 12px; color: var(--text3); }
+.tl-off-label { font-size: 13px; color: var(--text3); font-style: italic; }
+
+/* Timeline body */
+.tl-body { display: flex; position: relative; }
+
+/* Time gutter */
+.tl-gutter { width: var(--time-col); min-width: var(--time-col); flex-shrink: 0; border-right: 1px solid var(--border); position: relative; }
+.tl-hour-label {
+  position: absolute; right: 8px;
+  font-size: 10px; color: var(--text3);
+  transform: translateY(-50%);
+  white-space: nowrap; letter-spacing: 0.02em;
+}
+
+/* Events area */
+.tl-events { flex: 1; position: relative; }
+.tl-hour-line {
+  position: absolute; left: 0; right: 0;
+  border-top: 1px solid var(--border);
+  pointer-events: none;
+}
+.tl-hour-line.half { border-top-style: dashed; opacity: 0.4; }
+
+/* Event block */
+.tl-event {
+  position: absolute; left: 6px; right: 6px;
+  border-radius: 6px;
+  padding: 5px 8px;
+  overflow: hidden;
+  cursor: default;
+  transition: filter 0.1s;
+}
+.tl-event:hover { filter: brightness(0.95); }
+.tl-event-time { font-size: 10px; font-weight: 500; opacity: 0.75; letter-spacing: 0.02em; line-height: 1.3; }
+.tl-event-title { font-size: 12px; font-weight: 500; line-height: 1.4; margin-top: 1px; }
+
+/* Now line */
+.tl-now-line {
+  position: absolute; left: 0; right: 0;
+  border-top: 2px solid #E53935;
+  pointer-events: none; z-index: 10;
+}
+.tl-now-dot {
+  position: absolute; left: -4px; top: -4px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #E53935;
+}
+
+/* Monthly */
 .month-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
 .nav-btn { width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); cursor: pointer; font-size: 14px; color: var(--text2); display: flex; align-items: center; justify-content: center; }
 .nav-btn:hover { background: var(--surface2); }
@@ -90,17 +138,18 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .dow-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 4px; }
 .dow-row div { text-align: center; font-size: 11px; color: var(--text3); padding: 3px 0; }
 .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-.cal-cell { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 7px; min-height: 62px; }
+.cal-cell { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 6px 7px; min-height: 66px; }
 .cal-cell.off { background: var(--surface2); opacity: 0.55; }
 .cal-cell.empty { background: transparent; border-color: transparent; min-height: 0; }
 .cal-cell.today { border-color: var(--accent); }
 .cal-num { font-size: 12px; color: var(--text2); font-weight: 500; margin-bottom: 4px; }
 .cal-cell.today .cal-num { color: var(--accent); font-weight: 600; }
-.cal-pip { font-size: 10px; line-height: 1.4; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
+.cal-ev { font-size: 10px; line-height: 1.35; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; border-radius: 3px; padding: 1px 4px; margin-bottom: 2px; }
+.legend { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
 .leg { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text2); }
-.leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
+/* Yearly */
 .yr-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 @media (max-width: 680px) { .yr-grid { grid-template-columns: repeat(2, 1fr); } }
 .yr-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
@@ -122,7 +171,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     <div class="header-meta" id="meta">Loading…</div>
   </div>
 
-  <!-- Press Shift+U to show this admin bar -->
+  <!-- Press Shift+U to reveal -->
   <div class="admin-bar" id="admin-bar">
     <label>Sheet URL:</label>
     <input type="text" id="sheet-url" placeholder="Paste Google Sheet CSV link…" />
@@ -140,6 +189,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       <button class="tab" onclick="switchTab('yearly',this)">Yearly</button>
     </div>
 
+    <!-- WEEKLY -->
     <div id="view-weekly" class="view active">
       <div class="stats" id="w-stats"></div>
       <div class="week-row">
@@ -149,6 +199,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       <div id="w-days"></div>
     </div>
 
+    <!-- MONTHLY -->
     <div id="view-monthly" class="view">
       <div class="month-nav">
         <button class="nav-btn" onclick="shiftMonth(-1)">&#8592;</button>
@@ -157,14 +208,10 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       </div>
       <div class="dow-row"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div>
       <div class="cal-grid" id="cal"></div>
-      <div class="legend">
-        <div class="leg"><div class="leg-dot" style="background:var(--coral)"></div>Paper Prep</div>
-        <div class="leg"><div class="leg-dot" style="background:var(--accent)"></div>Online Class</div>
-        <div class="leg"><div class="leg-dot" style="background:var(--teal)"></div>Seminar / Visit</div>
-        <div class="leg"><div class="leg-dot" style="background:var(--surface2);border:1px solid var(--border)"></div>Weekly Off</div>
-      </div>
+      <div class="legend" id="cal-legend"></div>
     </div>
 
+    <!-- YEARLY -->
     <div id="view-yearly" class="view">
       <div class="stats" id="y-stats"></div>
       <div class="yr-grid" id="yr"></div>
@@ -173,37 +220,44 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 </div>
 
 <script>
-// ── Hardcoded sheet URL ──
 var SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS-4253V0CGVPKAv0mbji4vXiIUJ4-DjG97p7gOBDi0nZ8Q1DqlQhRfPKhcoWYODw/pub?gid=437593195&single=true&output=csv';
 
-// Column positions (0-based):
-// A=0 Date, B=1 Day, C=2 Morning 9:30-11, D=3 Online 11-12:30, E=4 Lunch, F=5 Seminar 1:30-3, G=6 Visit 3:30-6
-var COL = { date:0, day:1, morning:2, online:3, seminar:5, visit:6 };
-
-var data      = [];  // parsed rows
-var weeksList = [];  // sorted unique week keys
+var data      = [];   // parsed rows
+var timeSlots = [];   // [{col, label, startH, startM, endH, endM, color}] — from headers
+var weeksList = [];
 var calMonth  = new Date().getMonth();
 var calYear   = new Date().getFullYear();
+
 var MONTHS      = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 var MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 var DAY_ORDER   = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-var KEY = 'nidhi_tt_url_v4';
+var KEY = 'nidhi_tt_url_v5';
 
-// ── Admin toggle: Shift+U ──
+// Colour palette — cycles through for each slot column
+var SLOT_COLORS = [
+  { bg:'#EAF1F9', text:'#2A5C8F', dot:'#378ADD' },  // blue
+  { bg:'#E3F3EE', text:'#1A7A62', dot:'#1D9E75' },  // teal
+  { bg:'#FAF0EB', text:'#BF4E28', dot:'#D85A30' },  // coral
+  { bg:'#FBF3E2', text:'#A86B10', dot:'#BA7517' },  // amber
+  { bg:'#EEEBF9', text:'#5B3FA6', dot:'#7F77DD' },  // purple
+  { bg:'#F9EAF3', text:'#9C2A6A', dot:'#D4537E' },  // pink
+  { bg:'#EAF3DE', text:'#3B6D11', dot:'#639922' },  // green
+  { bg:'#F1EFE8', text:'#444441', dot:'#888780' },  // gray
+];
+
+// ── Admin toggle ──
 document.addEventListener('keydown', function(e) {
   if (e.shiftKey && e.key === 'U') {
     var bar = document.getElementById('admin-bar');
     bar.classList.toggle('visible');
-    if (bar.classList.contains('visible')) {
+    if (bar.classList.contains('visible'))
       document.getElementById('sheet-url').value = localStorage.getItem(KEY) || SHEET_URL;
-    }
   }
 });
-
 function clearSaved() {
   localStorage.removeItem(KEY);
   document.getElementById('sheet-url').value = SHEET_URL;
-  setStatus('Cleared — using default URL.', '');
+  setStatus('Cleared.', '');
 }
 
 // ── Boot ──
@@ -212,7 +266,6 @@ window.onload = function() {
   document.getElementById('sheet-url').value = url;
   fetchAndRender(url);
 };
-
 function loadSheet() {
   var url = document.getElementById('sheet-url').value.trim();
   if (url) fetchAndRender(url);
@@ -222,14 +275,12 @@ function fetchAndRender(url) {
   document.getElementById('loading').style.display = 'block';
   document.getElementById('dash').style.display = 'none';
   setStatus('Loading…', '');
-
   fetch(url)
-    .then(function(r) {
-      if (!r.ok) throw new Error('Cannot fetch. Check the sheet is published.');
-      return r.text();
-    })
+    .then(function(r) { if (!r.ok) throw new Error('Cannot fetch. Is the sheet published?'); return r.text(); })
     .then(function(csv) {
-      data = parseCSV(csv);
+      var parsed = parseCSV(csv);
+      data      = parsed.rows;
+      timeSlots = parsed.slots;
       if (!data.length) throw new Error('No data rows found.');
       localStorage.setItem(KEY, url);
       setStatus('Loaded ' + data.length + ' entries · ' + new Date().toLocaleTimeString(), 'ok');
@@ -243,285 +294,388 @@ function fetchAndRender(url) {
     })
     .catch(function(e) {
       document.getElementById('loading').style.display = 'none';
-      document.getElementById('meta').textContent = 'Could not load — press Shift+U to update the sheet URL';
+      document.getElementById('meta').textContent = 'Could not load — press Shift+U to update URL';
       setStatus('Error: ' + e.message, 'err');
       document.getElementById('admin-bar').classList.add('visible');
     });
 }
+function setStatus(msg, cls) { var el=document.getElementById('status'); el.textContent=msg; el.className=cls; }
 
-function setStatus(msg, cls) {
-  var el = document.getElementById('status');
-  el.textContent = msg; el.className = cls;
-}
+// ── Parse time from header string like "9:30 AM – 11:00 AM" or "9:30-11:00" ──
+function parseTimeRange(str) {
+  if (!str) return null;
+  str = str.trim();
+  // Remove common suffixes
+  str = str.replace(/\(.*?\)/g, '').trim();
 
-// ── Parse date from "DD-MM-YYYY" or "D/M/YYYY" or Excel serial ──
-function parseDate(raw) {
-  if (!raw) return null;
-  raw = raw.trim();
+  // Match patterns: "H:MM AM/PM – H:MM AM/PM" or "H:MM – H:MM" or "HH:MM-HH:MM"
+  var sep = str.indexOf('–') !== -1 ? '–' : (str.indexOf('-') !== -1 ? '-' : null);
+  if (!sep) return null;
 
-  // DD-MM-YYYY or DD/MM/YYYY
-  var m = raw.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);
-  if (m) return new Date(parseInt(m[3]), parseInt(m[2])-1, parseInt(m[1]));
+  var parts = str.split(sep);
+  if (parts.length < 2) return null;
 
-  // YYYY-MM-DD
-  var m2 = raw.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
-  if (m2) return new Date(parseInt(m2[1]), parseInt(m2[2])-1, parseInt(m2[3]));
-
-  // Excel serial number (days since 1900-01-01, with Lotus 1-2-3 leap year bug)
-  if (/^\d+$/.test(raw)) {
-    var serial = parseInt(raw);
-    if (serial > 1000) {
-      var excelEpoch = new Date(1899, 11, 30);
-      var d = new Date(excelEpoch.getTime() + serial * 86400000);
-      return d;
-    }
+  function parseT(t) {
+    t = t.trim();
+    var pm = /pm/i.test(t);
+    var am = /am/i.test(t);
+    t = t.replace(/[apmAMP]/g,'').trim();
+    var m = t.match(/(\d{1,2}):(\d{2})/);
+    if (!m) { m = t.match(/(\d{1,2})/); if (m) m = [m[0], m[1], '00']; }
+    if (!m) return null;
+    var h = parseInt(m[1]), min = parseInt(m[2] || 0);
+    if (pm && h !== 12) h += 12;
+    if (am && h === 12) h = 0;
+    return { h: h, m: min };
   }
 
-  // Fallback: try native parsing
-  var d = new Date(raw);
-  return isNaN(d.getTime()) ? null : d;
+  var s = parseT(parts[0]);
+  var e = parseT(parts[parts.length - 1]);
+  if (!s || !e) return null;
+  // Handle ambiguous PM: if start < 6 and no AM/PM marker, assume PM for afternoon times
+  // but keep as-is since the sheet uses AM/PM
+  return { startH: s.h, startM: s.m, endH: e.h, endM: e.m };
 }
 
-function fmtDate(d) {
-  if (!d) return '';
-  return d.getDate() + ' ' + MONTH_SHORT[d.getMonth()];
-}
-
-function isSameDay(a, b) {
-  return a && b && a.getDate()===b.getDate() && a.getMonth()===b.getMonth() && a.getFullYear()===b.getFullYear();
-}
-
-// ── CSV Parser ──
+// ── CSV Parser — auto-detects ALL time columns from headers ──
 function splitLine(line) {
-  var res = [], cur = '', inQ = false;
-  for (var i = 0; i < line.length; i++) {
-    var c = line[i];
-    if (c === '"') { inQ = !inQ; }
-    else if (c === ',' && !inQ) { res.push(cur.trim()); cur = ''; }
-    else { cur += c; }
+  var res=[], cur='', inQ=false;
+  for (var i=0; i<line.length; i++) {
+    var c=line[i];
+    if (c==='"') { inQ=!inQ; }
+    else if (c===',' && !inQ) { res.push(cur.trim()); cur=''; }
+    else { cur+=c; }
   }
-  res.push(cur.trim());
-  return res;
+  res.push(cur.trim()); return res;
 }
 
 function parseCSV(text) {
   var lines = text.split(/\r?\n/).map(function(l){ return l.trim(); });
-  var rows  = lines.filter(function(l){ return l.length > 0; }).map(splitLine);
+  var rows  = lines.filter(function(l){ return l.length>0; }).map(splitLine);
 
-  // Find header row: contains "Day" in col 1
-  var dataStart = 2;
-  for (var i = 0; i < Math.min(rows.length, 5); i++) {
-    if ((rows[i][COL.day] || '').toLowerCase().trim() === 'day') {
-      dataStart = i + 1; break;
-    }
+  // Find header row: col[1] = "Day"
+  var headerIdx = 1;
+  for (var i=0; i<Math.min(rows.length,5); i++) {
+    if ((rows[i][1]||'').toLowerCase().trim()==='day') { headerIdx=i; break; }
   }
 
+  var headerRow = rows[headerIdx];
+
+  // Auto-detect time slot columns from header (col 2 onwards)
+  // Skip col 0 (Date), col 1 (Day)
+  var slots = [];
+  var colorIdx = 0;
+  for (var c=2; c<headerRow.length; c++) {
+    var h = (headerRow[c]||'').trim();
+    if (!h) continue;
+    var tr = parseTimeRange(h);
+    var color = SLOT_COLORS[colorIdx % SLOT_COLORS.length];
+    colorIdx++;
+    slots.push({
+      col:    c,
+      label:  h,
+      color:  color,
+      startH: tr ? tr.startH : null,
+      startM: tr ? tr.startM : 0,
+      endH:   tr ? tr.endH   : null,
+      endM:   tr ? tr.endM   : 0,
+      hasTime: !!tr
+    });
+  }
+
+  // Parse data rows
   var result  = [];
   var weekNum = 1;
   var prevIdx = -1;
 
-  for (var i = dataStart; i < rows.length; i++) {
+  for (var i=headerIdx+1; i<rows.length; i++) {
     var row    = rows[i];
-    var dateRaw = (row[COL.date] || '').trim();
-    var dayRaw  = (row[COL.day]  || '').trim();
+    var dateRaw = (row[0]||'').trim();
+    var dayRaw  = (row[1]||'').trim();
     var dayLow  = dayRaw.toLowerCase();
-    if (!dayLow || dayLow === 'day') continue;
+    if (!dayLow || dayLow==='day') continue;
 
     var rowText     = row.join('|').toLowerCase();
-    var isSunday    = dayLow === 'sunday';
-    var isWeeklyOff = rowText.indexOf('weekly off') !== -1;
+    var isSunday    = dayLow==='sunday';
+    var isWeeklyOff = rowText.indexOf('weekly off')!==-1;
     var parsedDate  = parseDate(dateRaw);
 
     if (isSunday || isWeeklyOff) {
-      result.push({
-        week: weekNum, day: 'Sunday', off: true,
-        date: parsedDate,
-        morning:'', online:'', seminar:'', visit:''
-      });
-      weekNum++;
-      prevIdx = -1;
-      continue;
+      result.push({ week:weekNum, day:'Sunday', off:true, date:parsedDate, events:[] });
+      weekNum++; prevIdx=-1; continue;
     }
 
-    var dayCaped = dayLow.charAt(0).toUpperCase() + dayLow.slice(1);
+    var dayCaped = dayLow.charAt(0).toUpperCase()+dayLow.slice(1);
     var thisIdx  = DAY_ORDER.indexOf(dayCaped);
-    if (thisIdx === 0 && prevIdx >= 5) weekNum++;
+    if (thisIdx===0 && prevIdx>=5) weekNum++;
     prevIdx = thisIdx;
 
-    result.push({
-      week:    weekNum,
-      day:     dayCaped,
-      off:     false,
-      date:    parsedDate,
-      morning: (row[COL.morning] || '').trim(),
-      online:  (row[COL.online]  || '').trim(),
-      seminar: (row[COL.seminar] || '').trim(),
-      visit:   (row[COL.visit]   || '').trim()
+    // Build events array from all detected slot columns
+    var events = [];
+    slots.forEach(function(s) {
+      var val = (row[s.col]||'').trim();
+      if (!val || val.toLowerCase()==='lunch' && !val.replace(/lunch/i,'').trim()) {
+        // still add lunch if it has content
+      }
+      if (val) {
+        events.push({
+          label:  s.label,
+          value:  val,
+          color:  s.color,
+          startH: s.startH,
+          startM: s.startM,
+          endH:   s.endH,
+          endM:   s.endM,
+          hasTime: s.hasTime
+        });
+      }
     });
+
+    result.push({ week:weekNum, day:dayCaped, off:false, date:parsedDate, events:events });
   }
-  return result;
+
+  return { rows:result, slots:slots };
 }
 
-// ── Week select: label with real dates from sheet ──
+// ── Date helpers ──
+function parseDate(raw) {
+  if (!raw) return null;
+  raw = raw.trim();
+  var m = raw.match(/^(\d{1,2})[-\/](\d{1,2})[-\/](\d{4})$/);
+  if (m) return new Date(parseInt(m[3]),parseInt(m[2])-1,parseInt(m[1]));
+  var m2 = raw.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})$/);
+  if (m2) return new Date(parseInt(m2[1]),parseInt(m2[2])-1,parseInt(m2[3]));
+  if (/^\d+$/.test(raw)) {
+    var serial=parseInt(raw);
+    if (serial>1000) return new Date(new Date(1899,11,30).getTime()+serial*86400000);
+  }
+  var d=new Date(raw); return isNaN(d.getTime())?null:d;
+}
+function fmtDate(d) { return d ? d.getDate()+' '+MONTH_SHORT[d.getMonth()] : ''; }
+function isSameDay(a,b) { return a&&b&&a.getDate()===b.getDate()&&a.getMonth()===b.getMonth()&&a.getFullYear()===b.getFullYear(); }
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function mkStat(v,l) { return '<div class="stat"><div class="stat-val">'+v+'</div><div class="stat-lbl">'+l+'</div></div>'; }
+
+// ── Week Select ──
 function buildWeekSelect() {
-  var weeksMap = {}; // weekNum -> {min, max} date
+  var weeksMap={};
   data.forEach(function(r) {
-    if (!r.date || r.off) return;
-    if (!weeksMap[r.week]) weeksMap[r.week] = { min: r.date, max: r.date };
-    if (r.date < weeksMap[r.week].min) weeksMap[r.week].min = r.date;
-    if (r.date > weeksMap[r.week].max) weeksMap[r.week].max = r.date;
+    if (!r.date||r.off) return;
+    if (!weeksMap[r.week]) weeksMap[r.week]={min:r.date,max:r.date};
+    if (r.date<weeksMap[r.week].min) weeksMap[r.week].min=r.date;
+    if (r.date>weeksMap[r.week].max) weeksMap[r.week].max=r.date;
   });
+  weeksList=Object.keys(weeksMap).map(Number).sort(function(a,b){return a-b;});
+  var sel=document.getElementById('week-sel');
+  sel.innerHTML='';
 
-  weeksList = Object.keys(weeksMap).map(Number).sort(function(a,b){ return a-b; });
-
-  var sel = document.getElementById('week-sel');
-  sel.innerHTML = '';
-
-  var today = new Date(); today.setHours(0,0,0,0);
-  // Default to last week in data (most relevant if all dates are past)
-  var defaultWk = weeksList[weeksList.length - 1];
+  var today=new Date(); today.setHours(0,0,0,0);
+  var defaultWk=weeksList[weeksList.length-1];
 
   weeksList.forEach(function(w) {
-    var o = document.createElement('option');
-    o.value = w;
-    var range = weeksMap[w]
-      ? fmtDate(weeksMap[w].min) + ' – ' + fmtDate(weeksMap[w].max)
-      : '';
-    o.textContent = 'Week ' + w + (range ? '  (' + range + ')' : '');
+    var o=document.createElement('option');
+    o.value=w;
+    var range=weeksMap[w]?fmtDate(weeksMap[w].min)+' – '+fmtDate(weeksMap[w].max):'';
+    o.textContent='Week '+w+(range?'  ('+range+')':'');
     sel.appendChild(o);
-
     if (weeksMap[w]) {
-      var mon = new Date(weeksMap[w].min); mon.setHours(0,0,0,0);
-      var sat = new Date(weeksMap[w].max); sat.setHours(23,59,59,999);
-      // Exact match: today is inside this week
-      if (today >= mon && today <= sat) defaultWk = w;
+      var mon=new Date(weeksMap[w].min); mon.setHours(0,0,0,0);
+      var sat=new Date(weeksMap[w].max); sat.setHours(23,59,59,999);
+      if (today>=mon&&today<=sat) defaultWk=w;
     }
   });
-
-  // If no exact match, find nearest upcoming week; if all past, keep last week
-  if (document.getElementById('week-sel').value != defaultWk) {
-    var nearest = null, nearestDiff = Infinity;
-    weeksList.forEach(function(w) {
-      if (!weeksMap[w]) return;
-      var mon = new Date(weeksMap[w].min); mon.setHours(0,0,0,0);
-      var diff = mon - today;
-      if (diff >= 0 && diff < nearestDiff) { nearestDiff = diff; nearest = w; }
-    });
-    if (nearest !== null) defaultWk = nearest;
-  }
-
-  sel.value = defaultWk;
+  // nearest upcoming if no exact match
+  var nearest=null, nearestDiff=Infinity;
+  weeksList.forEach(function(w) {
+    if (!weeksMap[w]) return;
+    var mon=new Date(weeksMap[w].min); mon.setHours(0,0,0,0);
+    var diff=mon-today;
+    if (diff>=0&&diff<nearestDiff) { nearestDiff=diff; nearest=w; }
+  });
+  if (nearest!==null && defaultWk===weeksList[weeksList.length-1]) defaultWk=nearest;
+  sel.value=defaultWk;
 }
 
-// ── Weekly ──
+// ── Render Weekly (Timeline) ──
+// Shows hours 7am–8pm. Events are positioned by their actual start/end times.
+var TL_START = 7;  // 7 AM
+var TL_END   = 20; // 8 PM
+var TL_HOURS = TL_END - TL_START;
+
 function renderWeekly() {
   var wk   = parseInt(document.getElementById('week-sel').value);
-  var rows = data.filter(function(r){ return r.week === wk; });
-  rows.sort(function(a,b){ return DAY_ORDER.indexOf(a.day) - DAY_ORDER.indexOf(b.day); });
+  var rows = data.filter(function(r){ return r.week===wk; });
+  rows.sort(function(a,b){ return DAY_ORDER.indexOf(a.day)-DAY_ORDER.indexOf(b.day); });
 
   var today   = new Date();
   var working = rows.filter(function(r){ return !r.off; }).length;
   var offs    = rows.filter(function(r){ return r.off; }).length;
+  var totalEvents = 0;
+  rows.forEach(function(r){ totalEvents+=r.events.length; });
   document.getElementById('w-stats').innerHTML =
-    mkStat(working,'Active days') + mkStat(offs,'Days off') + mkStat(working*3,'Sessions this week');
+    mkStat(working,'Active days')+mkStat(offs,'Days off')+mkStat(totalEvents,'Total events this week');
 
+  var totalH = TL_HOURS * 56; // px
   var html = '';
+
   rows.forEach(function(r) {
-    var dateLabel = r.date ? fmtDate(r.date) + ' ' + r.date.getFullYear() : '';
+    var dateLabel = r.date ? fmtDate(r.date)+' '+r.date.getFullYear() : '';
     var isToday   = isSameDay(r.date, today);
 
-    if (r.off) {
-      html += '<div class="day-card'+(isToday?' today-card':'')+'"><div class="day-head">'
-            + '<span class="day-name">'+r.day+'</span>'
-            + '<span class="day-date">'+dateLabel+'</span>'
-            + '</div><div class="day-off">Weekly off</div></div>';
-      return;
+    html += '<div class="timeline-wrap">';
+    // Day header
+    html += '<div class="tl-day-head'+(isToday?' today-head':'')+'">';
+    html += '<span class="tl-day-name'+(isToday?' today-name':'')+'">'+r.day+'</span>';
+    html += '<span class="tl-day-date">'+dateLabel+'</span>';
+    if (r.off) html += '<span class="tl-off-label">Weekly off</span>';
+    html += '</div>';
+
+    if (!r.off) {
+      html += '<div class="tl-body">';
+
+      // Gutter with hour labels
+      html += '<div class="tl-gutter" style="height:'+totalH+'px">';
+      for (var h=TL_START; h<=TL_END; h++) {
+        var top = (h-TL_START)*56;
+        var label = h===0?'12 AM':h<12?h+' AM':h===12?'12 PM':(h-12)+' PM';
+        html += '<div class="tl-hour-label" style="top:'+top+'px">'+label+'</div>';
+      }
+      html += '</div>';
+
+      // Events canvas
+      html += '<div class="tl-events" style="height:'+totalH+'px">';
+
+      // Hour grid lines
+      for (var h=TL_START; h<=TL_END; h++) {
+        var top = (h-TL_START)*56;
+        html += '<div class="tl-hour-line" style="top:'+top+'px"></div>';
+        if (h<TL_END) html += '<div class="tl-hour-line half" style="top:'+(top+28)+'px"></div>';
+      }
+
+      // Now line (only on today)
+      if (isToday) {
+        var now = new Date();
+        var nowH = now.getHours() + now.getMinutes()/60;
+        if (nowH >= TL_START && nowH <= TL_END) {
+          var nowTop = (nowH - TL_START) * 56;
+          html += '<div class="tl-now-line" style="top:'+nowTop+'px"><div class="tl-now-dot"></div></div>';
+        }
+      }
+
+      // Event blocks
+      r.events.forEach(function(ev) {
+        if (!ev.hasTime) return; // skip events with unparseable times
+
+        var startFrac = ev.startH + ev.startM/60;
+        var endFrac   = ev.endH   + ev.endM/60;
+
+        // Clamp to visible window
+        var visStart = Math.max(startFrac, TL_START);
+        var visEnd   = Math.min(endFrac,   TL_END);
+        if (visStart >= visEnd) return;
+
+        var top    = (visStart - TL_START) * 56;
+        var height = (visEnd - visStart) * 56;
+        var minH   = 28;
+        if (height < minH) height = minH;
+
+        var timeStr = fmt12(ev.startH, ev.startM) + ' – ' + fmt12(ev.endH, ev.endM);
+
+        html += '<div class="tl-event" style="top:'+top+'px;height:'+height+'px;background:'+ev.color.bg+';border-left:3px solid '+ev.color.dot+'">';
+        html += '<div class="tl-event-time" style="color:'+ev.color.text+'">'+timeStr+'</div>';
+        html += '<div class="tl-event-title" style="color:'+ev.color.text+'">'+esc(ev.value)+'</div>';
+        html += '</div>';
+      });
+
+      html += '</div>'; // tl-events
+      html += '</div>'; // tl-body
     }
-    html += '<div class="day-card'+(isToday?' today-card':'')+'"><div class="day-head">'
-          + '<span class="day-name">'+r.day+'</span>'
-          + '<span class="day-date">'+dateLabel+'</span>'
-          + '</div><div class="day-slots day-slots-4">';
-    html += mkSlot('9:30 – 11:00 am',     r.morning, 'coral', 'Prep');
-    html += mkSlot('11:00 am – 12:30 pm', r.online,  'blue',  'Class');
-    html += mkSlot('1:30 – 3:00 pm',      r.seminar, 'teal',  'Visit');
-    html += mkSlot('3:30 – 6:00 pm',      r.visit,   'amber', 'Activity');
-    html += '</div></div>';
+
+    html += '</div>'; // timeline-wrap
   });
+
   document.getElementById('w-days').innerHTML = html || '<p style="color:var(--text3);font-size:13px;">No data for this week.</p>';
 }
 
-function mkSlot(time, content, color, label) {
-  var isEmpty = !content || content.toLowerCase() === 'lunch';
-  return '<div class="slot">'
-    + '<div class="slot-time">'+time+'</div>'
-    + '<div class="slot-text">'+(isEmpty ? '<span style="color:var(--text3)">–</span>' : esc(content))+'</div>'
-    + (!isEmpty ? '<span class="pill p-'+color+'">'+label+'</span>' : '')
-    + '</div>';
+function fmt12(h, m) {
+  var suffix = h < 12 ? 'AM' : 'PM';
+  var hh = h % 12; if (hh===0) hh=12;
+  return hh + (m>0 ? ':'+('0'+m).slice(-2) : '') + ' ' + suffix;
 }
-
-function mkStat(v,l) { return '<div class="stat"><div class="stat-val">'+v+'</div><div class="stat-lbl">'+l+'</div></div>'; }
-function esc(s)      { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function trunc(s,n)  { return s && s.length > n ? s.slice(0,n-1)+'…' : (s||''); }
 
 // ── Monthly ──
 function shiftMonth(d) {
-  calMonth += d;
-  if (calMonth > 11) { calMonth = 0; calYear++; }
-  if (calMonth < 0)  { calMonth = 11; calYear--; }
+  calMonth+=d;
+  if (calMonth>11){calMonth=0;calYear++;}
+  if (calMonth<0){calMonth=11;calYear--;}
   renderMonthly();
 }
-
 function renderMonthly() {
-  document.getElementById('m-title').textContent = MONTHS[calMonth] + ' ' + calYear;
-  var first  = new Date(calYear, calMonth, 1).getDay();
-  var daysIn = new Date(calYear, calMonth+1, 0).getDate();
-  var today  = new Date();
-  var html   = '';
+  document.getElementById('m-title').textContent=MONTHS[calMonth]+' '+calYear;
+  var first=new Date(calYear,calMonth,1).getDay();
+  var daysIn=new Date(calYear,calMonth+1,0).getDate();
+  var today=new Date();
+  var html='';
 
-  for (var i = 0; i < first; i++) html += '<div class="cal-cell empty"></div>';
-  for (var d = 1; d <= daysIn; d++) {
-    var dow     = new Date(calYear, calMonth, d).getDay();
-    var isOff   = dow === 0;
-    var isToday = d===today.getDate() && calMonth===today.getMonth() && calYear===today.getFullYear();
-    html += '<div class="cal-cell'+(isOff?' off':'')+(isToday?' today':'')+'">';
-    html += '<div class="cal-num">'+d+'</div>';
+  for (var i=0;i<first;i++) html+='<div class="cal-cell empty"></div>';
+  for (var d=1;d<=daysIn;d++) {
+    var dow=new Date(calYear,calMonth,d).getDay();
+    var isOff=dow===0;
+    var isToday=d===today.getDate()&&calMonth===today.getMonth()&&calYear===today.getFullYear();
+    html+='<div class="cal-cell'+(isOff?' off':'')+(isToday?' today':'')+'">';
+    html+='<div class="cal-num">'+d+'</div>';
     if (!isOff) {
-      html += '<div class="cal-pip" style="color:var(--coral)">&#9679; Prep</div>';
-      html += '<div class="cal-pip" style="color:var(--accent)">&#9679; Class</div>';
-      html += '<div class="cal-pip" style="color:var(--teal)">&#9679; Visit</div>';
+      // Find matching data row
+      var matchRow=null;
+      data.forEach(function(r){ if(r.date&&r.date.getDate()===d&&r.date.getMonth()===calMonth&&r.date.getFullYear()===calYear) matchRow=r; });
+      if (matchRow&&!matchRow.off) {
+        matchRow.events.slice(0,3).forEach(function(ev) {
+          html+='<div class="cal-ev" style="background:'+ev.color.bg+';color:'+ev.color.text+'">'+esc(ev.value.slice(0,20))+'</div>';
+        });
+      } else if (!matchRow) {
+        // No sheet data for this day — show generic dots
+        timeSlots.slice(0,3).forEach(function(s,i) {
+          html+='<div class="cal-ev" style="background:'+s.color.bg+';color:'+s.color.text+'">'+esc(s.label.slice(0,18))+'</div>';
+        });
+      }
     }
-    html += '</div>';
+    html+='</div>';
   }
-  document.getElementById('cal').innerHTML = html;
+  document.getElementById('cal').innerHTML=html;
+
+  // Legend from auto-detected slots
+  var leg='';
+  timeSlots.forEach(function(s) {
+    leg+='<div class="leg"><div class="leg-dot" style="background:'+s.color.dot+'"></div>'+esc(s.label)+'</div>';
+  });
+  leg+='<div class="leg"><div class="leg-dot" style="background:var(--surface2);border:1px solid var(--border)"></div>Weekly Off</div>';
+  document.getElementById('cal-legend').innerHTML=leg;
 }
 
 // ── Yearly ──
 function renderYearly() {
-  var y = new Date().getFullYear();
-  var totalWork = 0;
-  var html = '';
-  for (var m = 0; m < 12; m++) {
-    var daysIn = new Date(y, m+1, 0).getDate();
-    var firstD = new Date(y, m, 1).getDay();
-    var work   = 0;
-    for (var d = 1; d <= daysIn; d++) { if (new Date(y,m,d).getDay()!==0) work++; }
-    totalWork += work;
-    var mini = '';
-    for (var i = 0; i < firstD; i++) mini += '<div class="yr-d e"></div>';
-    for (var d = 1; d <= daysIn; d++) mini += '<div class="yr-d '+(new Date(y,m,d).getDay()===0?'r':'w')+'"></div>';
-    html += '<div class="yr-block"><div class="yr-mth">'+MONTHS[m].slice(0,3)+' '+y+'</div>'
-          + '<div class="yr-mini">'+mini+'</div>'
-          + '<div class="yr-count">'+work+' working days</div></div>';
+  var y=new Date().getFullYear();
+  var totalWork=0; var html='';
+  for (var m=0;m<12;m++) {
+    var daysIn=new Date(y,m+1,0).getDate();
+    var firstD=new Date(y,m,1).getDay();
+    var work=0;
+    for (var d=1;d<=daysIn;d++) { if(new Date(y,m,d).getDay()!==0) work++; }
+    totalWork+=work;
+    var mini='';
+    for (var i=0;i<firstD;i++) mini+='<div class="yr-d e"></div>';
+    for (var d=1;d<=daysIn;d++) mini+='<div class="yr-d '+(new Date(y,m,d).getDay()===0?'r':'w')+'"></div>';
+    html+='<div class="yr-block"><div class="yr-mth">'+MONTHS[m].slice(0,3)+' '+y+'</div><div class="yr-mini">'+mini+'</div><div class="yr-count">'+work+' working days</div></div>';
   }
-  document.getElementById('yr').innerHTML = html;
-  document.getElementById('y-stats').innerHTML =
-    mkStat(totalWork,'Working days this year') + mkStat(52,'Sundays off') + mkStat(totalWork*3,'Total sessions');
+  document.getElementById('yr').innerHTML=html;
+  document.getElementById('y-stats').innerHTML=
+    mkStat(totalWork,'Working days this year')+mkStat(52,'Sundays off')+mkStat(totalWork*timeSlots.length,'Total events');
 }
 
 // ── Tabs ──
-function switchTab(name, el) {
-  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
-  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+function switchTab(name,el) {
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
   el.classList.add('active');
   document.getElementById('view-'+name).classList.add('active');
 }
